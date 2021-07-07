@@ -1,0 +1,34 @@
+html {
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    margin: 0
+}
+
+header { 
+    background-color: black;
+    height: 80px; /*~100px*/
+    width: 100%;
+}
+
+/*aside {
+    border: 4px solid blue;
+    width: 200px;
+    height: 40%;
+    position: fixed;
+}*/
+
+
+.container {
+    height: 50%; /*임시 ~ item size*/
+    
+}
+
+
+footer {
+    background-color: black;
+    height: 200px; /*~100px*/
+    width: 100%;
+}
