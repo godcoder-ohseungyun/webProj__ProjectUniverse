@@ -1,0 +1,49 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/basic.css'%}" />
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hello</title>
+  </head>
+  <!--1280^2-->
+
+  <!--id 고윳값 / class 그룹-->
+  <body>
+    <header>
+      <div id="Logo">
+        <a href="url">logo</a>
+      </div>
+
+      <nav id="headM">
+        <!--로그인 전-->
+        <a href="url">login</a>
+        <a href="url">SignUp</a>
+        <a href="url">bell</a>
+      </nav>
+    </header>
+
+    <aside><!--추후 메뉴 적용--></aside>
+
+    {% block content %} {% endblock %}
+
+    <footer>
+      <nav id="foot">
+        <a href="url">Service</a>
+        <a href="url">OpenSource</a>
+        <a href="url">Settings</a>
+        <a href="url">LION_Corp</a>
+      </nav>
+
+      <div id="footInfo">
+        We encourage anyone interested in programming to use our service.
+        <br />
+        We help you create great results
+      </div>
+    </footer>
+  </body>
+</html>
