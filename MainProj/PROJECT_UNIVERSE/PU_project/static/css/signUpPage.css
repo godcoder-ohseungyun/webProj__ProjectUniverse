@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+  }
+.container{     /*  메인 그리드 영역 */
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(7,auto);
+    row-gap: 10px;
+    width: 50%;
+    background-color: blanchedalmond;
+}
+input{
+    width: 100%;
+    height: 30px;
+    font-size: 15px;
+}
+select{
+    width: 100%;
+    height: 30px;
+}
+#logo{
+    display: flex;
+    justify-content: center;
+}
+.container label{
+    display: block;
+}
+body{
+    display: flex;
+    justify-content: center;
+}
+
+.container button {
+    background: gray;
+    color: white;
+    padding: 1em;
+    }
+fieldset {
+        border: 0;
+      }
+
+
+
+#register{
+    display: flex;
+    justify-content: center;
+}

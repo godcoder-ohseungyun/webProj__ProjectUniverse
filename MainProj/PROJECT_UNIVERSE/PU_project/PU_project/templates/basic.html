@@ -13,7 +13,7 @@
   <!--1280^2-->
 
   <!--id 고윳값 / class 그룹-->
-  <body>
+  <body background="{% static 'images/background.jpg' %}">
     <header>
       <div id="Logo">
         <a href="url">logo</a>
@@ -21,9 +21,16 @@
 
       <nav id="headM">
         <!--로그인 전-->
-        <a href="url">login</a>
-        <a href="url">SignUp</a>
+        {%if not user.is_authenticated %}
+        <a href="{% url 'login' %}">login</a>
+        <a href="{% url 'signUp' %}">SignUp</a>
+        {%endif%}
+
+        {%if user.is_authenticated %}
+        <a href="{% url 'logout' %}">logout</a>
+        <a href="{% url 'signUp' %}">SignUp</a>
         <a href="url">bell</a>
+        {%endif%}
       </nav>
     </header>
 
