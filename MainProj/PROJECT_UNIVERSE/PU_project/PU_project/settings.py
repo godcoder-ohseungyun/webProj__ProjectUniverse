@@ -38,9 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account', #로그인 관련
-    'mainPage', #메인 정보 페이지
-    'startPage', #로그인전 시작페이지
+    'account',
+    'mainPage',
 ]
 
 MIDDLEWARE = [
@@ -128,8 +127,3 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-#유저 등록 models
-AUTH_USER_MODEL = 'account.CustomUser'
