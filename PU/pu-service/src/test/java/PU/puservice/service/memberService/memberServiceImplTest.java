@@ -1,8 +1,8 @@
 package PU.puservice.service.memberService;
 
 import PU.puservice.domain.member.Member;
-import PU.puservice.repository.memberRepository.memberRepository;
-import PU.puservice.repository.memberRepository.memberRepositoryImpl;
+import PU.puservice.repository.memberRepository.MemberRepository;
+import PU.puservice.repository.memberRepository.MemberRepositoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,8 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class memberServiceImplTest {
 
-    private memberRepository memberRepository = new memberRepositoryImpl();
-    private memberService memberService = new memberServiceImpl(memberRepository);
+    private MemberRepository memberRepository = new MemberRepositoryImpl();
+    private MemberService memberService = new MemberServiceImpl(memberRepository);
     
     @AfterEach
     void afterEach() {
@@ -23,10 +23,10 @@ class memberServiceImplTest {
     @Test
     void join() {
         //given
-        Member member1 = new Member(1L,"오승윤");
+        Member member1 = new Member(2L,"00","00","시작2호기");
         //when
         memberService.join(member1);
-        Member find = memberService.findMember(1l);
+        Member find = memberService.findMemberByUniqueId(1l);
         //then
         assertThat(find).isEqualTo(member1);
     }

@@ -1,17 +1,19 @@
 package PU.puservice.service.memberService;
 
 import PU.puservice.domain.member.Member;
-import PU.puservice.repository.memberRepository.memberRepository;
+import PU.puservice.repository.memberRepository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class memberServiceImpl implements memberService{
+import java.util.Optional;
 
-    private memberRepository memberRepository;
+@Service
+public class MemberServiceImpl implements MemberService {
+
+    private MemberRepository memberRepository;
 
     @Autowired //자동 생성자 주입
-    public  memberServiceImpl(memberRepository memberRepository){
+    public MemberServiceImpl(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
 
@@ -21,11 +23,16 @@ public class memberServiceImpl implements memberService{
     }
 
     @Override
-    public Member findMember(Long id) {
+    public Member findMemberByUniqueId(Long id) {
         return memberRepository.findById(id);
     }
 
-    /**
+    @Override
+    public Optional<Member> findMemberByLoginId(String LoginId){
+        return memberRepository.findByLoginId(LoginId);
+    }
+
+    /**+
      * 가입자 아이디가 unique한지 검사
      */
     @Override

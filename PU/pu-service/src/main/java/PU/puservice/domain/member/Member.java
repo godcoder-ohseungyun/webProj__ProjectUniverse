@@ -12,10 +12,10 @@ public class Member {
     private Grade grade = null;
     private int Participation = 0; //참여한 프로젝트 수 -> grade에 영향줄 예정
 
-    public Member(Long id,String name){
+    public Member(Long id, String loginId, String password, String name) {
         this.id = id;
+        LoginId = loginId;
+        this.password = password;
         this.name = name;
     }
-    
-
 }

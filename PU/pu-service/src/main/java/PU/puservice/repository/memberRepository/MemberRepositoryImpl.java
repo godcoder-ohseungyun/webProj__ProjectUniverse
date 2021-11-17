@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class memberRepositoryImpl implements memberRepository {
+public class MemberRepositoryImpl implements MemberRepository {
 
     private Map<Long,Member> store = new ConcurrentHashMap<>();
     private Long uniqueId = 0L; //임시
