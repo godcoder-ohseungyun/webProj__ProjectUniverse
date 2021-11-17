@@ -6,15 +6,18 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class memberRepositoryImpl implements memberRepository {
 
     private Map<Long,Member> store = new ConcurrentHashMap<>();
+    private Long uniqueId = 0L; //임시
 
     @Override
     public Member save(Member member) {
+        member.setId(uniqueId++);//임시: 별도 unique id 생성 로직 짜야함
         store.put(member.getId(),member);
         return member;
     }
@@ -27,6 +30,12 @@ public class memberRepositoryImpl implements memberRepository {
     @Override
     public List<Member> findAll() {
         return new ArrayList<>(store.values()); //values returns map so, convert to ArrayList
+    }
+
+    public Optional<Member> findByLoginId(String loginId) {
+        return findAll().stream()
+                .filter(m -> m.getLoginId().equals(loginId))
+                .findFirst();
     }
 
     @Override

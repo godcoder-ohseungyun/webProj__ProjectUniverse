@@ -10,13 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 
-
 class memberServiceImplTest {
 
     private memberRepository memberRepository = new memberRepositoryImpl();
     private memberService memberService = new memberServiceImpl(memberRepository);
-
-
+    
     @AfterEach
     void afterEach() {
         memberRepository.clearStore();
@@ -24,9 +22,12 @@ class memberServiceImplTest {
 
     @Test
     void join() {
+        //given
         Member member1 = new Member(1L,"오승윤");
+        //when
         memberService.join(member1);
         Member find = memberService.findMember(1l);
+        //then
         assertThat(find).isEqualTo(member1);
     }
 }
