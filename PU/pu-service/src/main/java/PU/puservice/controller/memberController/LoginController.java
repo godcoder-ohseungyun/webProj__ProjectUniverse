@@ -39,4 +39,18 @@ public class LoginController {
 
         return "redirect:/basic/home";
     }
+
+
+    @PostMapping //WHY LOGOUT IS POST?
+    public String logout(HttpServletResponse response) {
+        expireCookie(response, "memberId"); //쿠키 폐기
+        return "";
+    }
+    
+    private void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
 }

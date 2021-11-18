@@ -1,6 +1,10 @@
 #### 2021 09 01
 계층구조 고려: domain <- repository <- service <- controller<br>
 로 고정<br><br>
+<br>TODO<br>
+http api(json)
+<br>
+동시처리 multithread
 
 ---
 
@@ -21,12 +25,19 @@ assertThat(A).isEqualTo(B): null값이 비교 안돼는  오류 원인 찾기
 <br>
 
 ---
-#### 로그인 유지 처리: cookie이용
-쿠키 전달 확인
+#### 2021 11 18
+로그인 유지 처리: cookie이용<br>
+쿠키 전달 확인, 유지하고자 하는 데이터는 쿠키를 활용하면 될듯,블로그 확인
 
 <br>TODO<br>
 쿠키 생성 value 0 으로 나옴 id++ 때문인지 확인
 <br> 세션적용하기
 <br> 로그아웃기능
 
+
+
+#### 2021 11 19
+logout is get? post? let's find<br>
+https://stackoverflow.com/questions/3521290/logout-get-or-post
+<br>
 
