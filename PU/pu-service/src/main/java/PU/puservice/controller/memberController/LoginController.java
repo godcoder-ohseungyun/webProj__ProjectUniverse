@@ -6,10 +6,7 @@ import PU.puservice.service.loginService.MemberLoginService;
 import PU.puservice.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +25,13 @@ public class LoginController {
         return "login/loginForm";
     }
 
+    /**
+     * 쿠키->세션으로 대체
+     * 필터적용
+     * redirectURL from LoginCheckFilter.java
+     */
     @PostMapping
-    public String login(@ModelAttribute LoginForm form, HttpServletRequest request){
+    public String login(@ModelAttribute LoginForm form, @RequestParam(defaultValue = "/basic/home") String redirectURL, HttpServletRequest request){
         Member loginMember  = memberLoginService.login(form.getLoginId(),form.getPassword());
 
         if(loginMember.equals(null)){
@@ -48,7 +50,7 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //bound name , value in bound
 
 
-        return "redirect:/basic/home";
+        return "redirect:"+redirectURL;
     }
 
 
