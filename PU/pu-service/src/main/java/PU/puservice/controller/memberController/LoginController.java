@@ -54,7 +54,7 @@ public class LoginController {
     }
 
 
-    @PostMapping //WHY LOGOUT IS POST?
+    @PostMapping("/logout") //WHY LOGOUT IS POST?
     public String logout(HttpServletRequest request) {
         /**
         expireCookie(response, "memberId"); //쿠키 폐기
