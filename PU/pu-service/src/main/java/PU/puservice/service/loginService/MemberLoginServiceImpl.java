@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberLoginServiceImple implements MemberLoginService{
+public class MemberLoginServiceImpl implements MemberLoginService{
 
     private final MemberRepository memberRepository;
 

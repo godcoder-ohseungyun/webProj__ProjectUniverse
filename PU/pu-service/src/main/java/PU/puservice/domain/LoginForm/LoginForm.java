@@ -1,4 +1,4 @@
-package PU.puservice.domain.member;
+package PU.puservice.domain.LoginForm;
 
 import lombok.Data;
 
