@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style> .container {
+ max-width: 560px;
+ }
+ </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>프로젝트 상세 정보</h2>
+    </div>
+    <div>
+        <label for="projectId">프로젝트 ID</label>
+        <input type="text" id="projectId" name="projectId" class="form-control"
+               value="1" th:value="${post.id}" readonly>
+    </div>
+    <div>
+        <label for="projectTitle">프로젝트 제목</label>
+        <input type="text" id="projectTitle" name="projectTitle" class="form-control"
+               value="project_universe" th:value="${post.title}" readonly>
+    </div>
+    <div>
+        <label for="body">설명</label>
+        <input type="text" id="body" name="body" class="form-control"
+               value="우리 프로젝트는 ..." th:value="${post.body}" readonly>
+    </div>
+    <div>
+        <label for="writer">생성자</label>
+        <input type="text" id="writer" name="writer" class="form-control"
+               value="Lee" th:value="${post.writer}" readonly>
+    </div>
+    <div>
+        <label for="creationDate">생성일</label>
+        <input type="text" id="creationDate" name="creationDate" class="form-control"
+               value="2021-12-31" th:value="${post.creationDate}" readonly>
+    </div>
+
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='updatePostForm.html'"
+                    th:onclick="|location.href='@{/post/{postId}/update(postId=${post.id})}'|"
+                    type="button">프로젝트 정보 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='posts.html'"
+                    th:onclick="|location.href='@{/post}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
+

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML><html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link href="../css/bootstrap.min.css"
+        th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <style>
+ .container {
+ max-width: 560px;
+ }
+ </style>
+</head>
+<body>
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>프로젝트 수정 폼</h2>
+  </div>
+  <form action="postDetail.html" th:action method="post">
+    <div>
+      <label for="projectId">프로젝트 ID</label>
+      <input type="text" id="projectId" name="projectId" class="form-control"
+             value="1" th:value="${post.id}">
+    </div>
+    <div>
+      <label for="title">프로젝트 제목</label>
+      <input type="text" id="title" name="title" class="form-control"
+             value="project_universe" th:value="${post.title}">
+    </div>
+    <div>
+      <label for="body">설명</label>
+      <input type="text" id="body" name="body" class="form-control"
+             value="우리 프로젝트는 ..." th:value="${post.body}">
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">저장
+        </button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='post.html'"
+                th:onclick="|location.href='@{/post/{postId}(postId=${post.id})}'|"
+                type="button">취소</button>
+      </div>
+    </div>
+  </form>
+</div> <!-- /container -->
+</body>
+</html>
