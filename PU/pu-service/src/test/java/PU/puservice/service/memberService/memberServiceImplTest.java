@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class memberServiceImplTest {
 
     private MemberRepository memberRepository = new MemberRepositoryImpl();
-    private MemberService memberService = new MemberServiceImpl(memberRepository);
+    private MemberService memberService = new MemberServiceImpl();
     
     @AfterEach
     void afterEach() {

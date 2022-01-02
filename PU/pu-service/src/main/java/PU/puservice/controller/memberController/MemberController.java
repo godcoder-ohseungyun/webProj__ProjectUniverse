@@ -76,7 +76,9 @@ public class MemberController {
 
         Optional<Member> findMember = memberService.findMemberByLoginId(memberId);
 
-        log.info(findMember.get().getName());
+        if(findMember.isPresent()) { //예외처리: 값이 있는경우에만 로그 찍기
+            log.info(findMember.get().getName());
+        }
 
         return "member/profile";
     }
