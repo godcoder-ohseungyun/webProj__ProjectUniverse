@@ -2,18 +2,21 @@ package PU.puservice.service.memberService;
 
 import PU.puservice.domain.member.Member;
 import PU.puservice.repository.memberRepository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+
 
     private MemberRepository memberRepository;
 
-    @Autowired //자동 생성자 주입
-    public MemberServiceImpl(MemberRepository memberRepository){
+    @Autowired
+    public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 

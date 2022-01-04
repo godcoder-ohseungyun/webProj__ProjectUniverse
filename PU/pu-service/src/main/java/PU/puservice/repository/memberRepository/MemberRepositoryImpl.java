@@ -32,6 +32,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         return new ArrayList<>(store.values()); //values returns map so, convert to ArrayList
     }
 
+    @Override
     public Optional<Member> findByLoginId(String loginId) {
         return findAll().stream()
                 .filter(m -> m.getLoginId().equals(loginId))

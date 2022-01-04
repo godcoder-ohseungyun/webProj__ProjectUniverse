@@ -1,6 +1,6 @@
 package PU.puservice.controller.memberController;
 
-import PU.puservice.domain.member.LoginForm;
+import PU.puservice.domain.LoginForm.LoginForm;
 import PU.puservice.domain.member.Member;
 import PU.puservice.service.loginService.MemberLoginService;
 import PU.puservice.session.SessionConst;
@@ -8,10 +8,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
+/**
+ * @Author 오승윤
+ * 로그인 컨트롤러
+ * 1.로그인 및 로그아웃
+ *
+ * 로그인: /login
+ * 로그아웃: /logout
+ */
 
 @Controller
 @RequiredArgsConstructor
@@ -31,7 +39,7 @@ public class LoginController {
      * redirectURL from LoginCheckFilter.java
      */
     @PostMapping
-    public String login(@ModelAttribute LoginForm form, @RequestParam(defaultValue = "/basic/home") String redirectURL, HttpServletRequest request){
+    public String login(@ModelAttribute LoginForm form, @RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request){
         Member loginMember  = memberLoginService.login(form.getLoginId(),form.getPassword());
 
         if(loginMember.equals(null)){
@@ -39,9 +47,13 @@ public class LoginController {
         }
 
         /**
-        Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
-        response.addCookie(idCookie);
+         [기존코드]
+         Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+         response.addCookie(idCookie);
+
          쿠키 -> 세션으로 대체
+
+         응답 http header에 session data 대신 전달
         */
         //로그인 성공 처리
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성: true
@@ -49,17 +61,19 @@ public class LoginController {
         //세션에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //bound name , value in bound
 
-
-        return "redirect:"+redirectURL;
+        return "redirect:"+redirectURL; //request this url
     }
 
 
     @PostMapping("/logout") //WHY LOGOUT IS POST?
     public String logout(HttpServletRequest request) {
+
         /**
-        expireCookie(response, "memberId"); //쿠키 폐기
+         [기존코드]
+         expireCookie(response, "memberId"); //쿠키 폐기
          쿠키->세션으로 대체
         */
+
         //세션을 삭제한다.
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성안함: false
         HttpSession session = request.getSession(false);
@@ -68,11 +82,5 @@ public class LoginController {
         }
          return "";
     }
-    
-//    private void expireCookie(HttpServletResponse response, String cookieName) {
-//        Cookie cookie = new Cookie(cookieName, null);
-//        cookie.setMaxAge(0);
-//        response.addCookie(cookie);
-//    }
 
 }

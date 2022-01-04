@@ -1,0 +1,74 @@
+
+
+
+section #main {
+  width: 1000px;
+  margin : 4% 20% 4% 20%;
+  display: flex;
+}
+section #summary{
+  width : 530px;
+  margin-right: 150px;
+}
+
+.project_title {
+  margin-bottom: 20px;
+}
+
+section h1 {
+  text-align: center;
+  font-size: 40px;
+color: #707070;
+font-family: 'Erica One';
+text-shadow: -.030em .030em #EEEEEE, -.06em .06em #707070;
+}
+
+section h2 {
+  color: #707070;
+font-family: 'Erica One';
+text-shadow: -.030em .030em #EEEEEE, -.06em .06em #707070;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+section p {
+  text-align: center;
+  color: #707070;
+font-family: 'Erica One';
+text-shadow: -.030em .030em #EEEEEE, -.06em .06em #707070;
+}
+
+
+button span {
+  font-weight: bold;
+}
+
+#main button {
+  background: #ab6ff0;
+  color: #fff;
+  border: none;
+  position: relative;
+  height: 50px;
+  width: 200px;
+  font-size: 20px;
+  padding: 0 2em;
+  cursor: pointer;
+  transition: 800ms ease all;
+  outline: none;
+  margin: 20px 0px;
+}
+
+#main button:hover {
+  background: #fff;
+  color: #ab6ff0;
+}
+section #astronaut{
+  margin-top: 40px;
+  width: 300px;
+  height: 300px;
+}
+section .astronaut {
+  width: 300px;
+  height: 300px;
+}

@@ -22,39 +22,22 @@ public class HomeController {
     @GetMapping
     public String accessHomePage(HttpServletRequest request, Model model) {
 
-
-        //세션이 없으면 home
         HttpSession session = request.getSession(false);
 
+        //세션이 없으면 home
         if (session == null) {
-            return "home";
+            return "main/home";
         }
+
         Member loginMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
-            return "home";
+            return "main/home";
         }
+
         //세션이 유지되면 로그인으로 이동
         model.addAttribute("member", loginMember);
-        return "loginHome";
+        return "main/loginHome";
 
-        /**
-         * CookieValue: request http header 쿠키조회
-
-         if (memberId == null){
-         return "basic/home"; //디렉토리 바꿔야됨 static home으로
-         }
-         //쿠키 null: 비로그인
-
-         Member loginMember = memberService.findMemberByUniqueId(memberId);
-         if(loginMember==null){
-         return "basic/home";
-         }
-         //쿠키 have but wrong memberId
-
-         model.addAttribute("member",loginMember);
-         return ""; //별도의 로그인 전용 홈 화면 필요함
-         // 로그아웃 버튼이나 로그인 이후 사용자만 쓰는 기능을 구현해야함
-         */
     }
 }
