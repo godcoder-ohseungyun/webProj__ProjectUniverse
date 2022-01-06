@@ -1,6 +1,6 @@
 package PU.puservice.controller.memberController;
 
-import PU.puservice.domain.LoginForm.LoginForm;
+import PU.puservice.domain.loginForm.LoginForm;
 import PU.puservice.domain.member.Member;
 import PU.puservice.service.loginService.MemberLoginService;
 import PU.puservice.session.SessionConst;
