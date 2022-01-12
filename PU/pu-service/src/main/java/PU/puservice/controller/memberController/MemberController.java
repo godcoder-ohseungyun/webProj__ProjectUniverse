@@ -55,9 +55,9 @@ public class MemberController {
             Member savedMember = memberService.join(member);
         }
 
-        redirectAttributes.addAttribute("memberName",member.getName());
-        redirectAttributes.addAttribute("status",true);
-        log.info(member.getName()+"의 회원가입 완료됨");
+//        redirectAttributes.addAttribute("memberName",member.getName());
+//        redirectAttributes.addAttribute("status",true);
+//        log.info(member.getName()+"의 회원가입 완료됨");
 
         return "redirect:";
 
@@ -77,7 +77,7 @@ public class MemberController {
         Optional<Member> findMember = memberService.findMemberByLoginId(memberId);
 
         if(findMember.isPresent()) { //예외처리: 값이 있는경우에만 로그 찍기
-            log.info(findMember.get().getName());
+            log.info(findMember.get().getLoginId());
         }
 
         return "member/profile";

@@ -27,6 +27,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         return store.get(id);
     }
 
+
     @Override
     public List<Member> findAll() {
         return new ArrayList<>(store.values()); //values returns map so, convert to ArrayList
@@ -39,11 +40,13 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .findFirst();
     }
 
+
+
+
     @Override
     public void update(Long id, Member updateParam) {
         Member findmember = findById(id);
         findmember.setId(updateParam.getId());
-        findmember.setName(updateParam.getName());
         findmember.setGrade(updateParam.getGrade());
     }
 
