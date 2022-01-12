@@ -2,7 +2,9 @@ package PU.puservice;
 
 
 import PU.puservice.domain.member.Member;
+import PU.puservice.domain.post.Post;
 import PU.puservice.service.memberService.MemberService;
+import PU.puservice.service.postService.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +20,9 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor //final이 붙은 필드의 생성자를 자동으로 생성해주는 lombok
 public class TestDataInit {
 
+    //알아서 주입 됨 RequiredArgsConstructor
     private final MemberService memberService;
+    private final PostService postService;
 
     /**
     //RequiredArgsConstructor 에너테이션으로 final 필드 생성자 자동 생성
@@ -35,7 +39,13 @@ public class TestDataInit {
      */
     @PostConstruct
     public void init(){
+        //회원가입 회원 하나 생성
         Member memberA = new Member(1L,"0602","0602","시작1호기");
         memberService.join(memberA);
+
+        //게시물 하나 생성
+        Post post1 = new Post(1l,"테스트파일","음","시작1호기",null);
+        postService.createPost(post1);
+
     }
 }

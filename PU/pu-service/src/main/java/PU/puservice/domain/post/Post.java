@@ -12,7 +12,7 @@ public class Post {
     private String title;
     private String body;
     private String writer;
-    private LocalDate creationDate;
+    private LocalDate creationDate = null;
     private int viewCnt = 0;
     private List<String> volunteers; //지원자들 목록 but 게시자만 이 목록 볼수있게 할꺼임
 

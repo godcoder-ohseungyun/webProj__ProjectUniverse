@@ -13,7 +13,8 @@ public class Profile {
     private String body;
     private String links;
     private String tags;
-    private List<Post> projectList; //참여하고있는 공고 진행중인 프로젝트 리스트
+    private List<String> projectList; //참여하고있는 공고 진행중인 프로젝트 리스트 -> 이게 Post 객체를 저장하는게 맞나?
+    //포스트 링크를 보유해야지;;
 
     public Profile(Long id, String photo, String body, String links, String tags) {
         this.id = id;
