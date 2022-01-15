@@ -64,7 +64,7 @@ public class PostController {
             Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
             //로그인회원이 작성자일때
-            if (loginMember.getLoginId().equals(Writer)) { // why? LoginId에 닉네임을 넣기로 함
+            if (loginMember.getName().equals(Writer)) {
                 List<Object> list = new ArrayList<Object>();
                 list.add(foundPost);
                 list.add(MasterKey.masterKey); //싱글톤 객체
@@ -83,28 +83,17 @@ public class PostController {
         return "post/createPostForm";
     }
 
-    //여기 수정해야함. json으로 넘어오니까
     @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post, RedirectAttributes redirectAttributes ,HttpServletRequest request) {
+    public String createPost(@ModelAttribute Post post, RedirectAttributes redirectAttributes) {
+        Post createdPost = postService.createPost(post);
 
-        HttpSession session = request.getSession(false);
+        // redirect할 때 url 인코딩 및 쿼리 파라미터 처리
+        redirectAttributes.addAttribute("postId", createdPost.getId());
+        redirectAttributes.addAttribute("status", true);
 
-        //새션이 존재하면
-        if (session != null) {
-            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-            Post createdPost = postService.createPost(post);
 
-            createdPost.setWriter(loginMember.getLoginId()); //로그인 한 사람으로 작성자 지정
-
-            // redirect할 때 url 인코딩 및 쿼리 파라미터 처리
-//            redirectAttributes.addAttribute("postId", createdPost.getId());
-//            redirectAttributes.addAttribute("status", true);
-
-            // 중복 저장을 막기 위해 PRG 패턴 적용
-            return "redirect:/post/{postId}";
-        }
-
-        return "redirect:/post";
+        // 중복 저장을 막기 위해 PRG 패턴 적용
+        return "redirect:/post/{postId}";
     }
 
     // 이미 저장되어있는 post 객체를 찾아야하므로 postId를 pathVariable로 등록

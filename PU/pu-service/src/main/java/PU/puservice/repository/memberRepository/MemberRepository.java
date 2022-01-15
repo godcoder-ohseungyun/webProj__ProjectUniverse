@@ -10,8 +10,6 @@ public interface MemberRepository {
 
     Member findById(Long id);
 
-    //Member findByName(String name);
-
     List<Member> findAll();
 
     Optional<Member> findByLoginId(String loginId);

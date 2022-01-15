@@ -23,22 +23,11 @@ class memberServiceImplTest {
     @Test
     void join() {
         //given
-        Member member1 = new Member(1l,"00","00","시작2호기");
+        Member member1 = new Member(2L,"00","00","시작2호기");
         //when
         memberService.join(member1);
         Member find = memberService.findMemberByUniqueId(1l);
         //then
         assertThat(find).isEqualTo(member1);
-    }
-
-    @Test
-    void isPossible(){
-        //given
-        Member member1 = new Member(1l,"00","00","시작2호기");
-        memberService.join(member1);
-        //when
-        boolean result = memberService.isPossible(1l);
-        //then
-        assertThat(result).isEqualTo("true");
     }
 }
