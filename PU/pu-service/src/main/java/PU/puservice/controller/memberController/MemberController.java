@@ -28,7 +28,7 @@ import java.util.Optional;
  * 프로필 삭제 /{memberId}
  */
 @Slf4j
-@Controller
+@Controller()
 public class MemberController {
 
     private MemberService memberService;
@@ -44,7 +44,9 @@ public class MemberController {
      */
     @GetMapping("/join")
     public String joinMemberForm(){
+
         return "member/joinMember";
+
     }
 
 

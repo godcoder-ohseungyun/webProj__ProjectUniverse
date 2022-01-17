@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
