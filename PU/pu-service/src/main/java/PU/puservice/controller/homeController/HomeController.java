@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 응답 헤더 LOCATION에 URI 담아주기 : 이때 상태코드 301로 되어야함, 지금은 처리 안되어있어서 201 OK임
+ *
+ * HTTP 스펙 살펴보기
+ *
+ * SPRING으로 HTTP 스펙 다루는거 정리하기
+ */
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
@@ -40,4 +47,6 @@ public class HomeController {
         return "main/loginHome";
 
     }
+
+
 }

@@ -1,27 +1,34 @@
 package PU.puservice.controller.postController;
 
 import PU.puservice.domain.member.Member;
-import PU.puservice.domain.post.MasterKey;
 import PU.puservice.domain.post.Post;
 import PU.puservice.service.postService.PostService;
 import PU.puservice.session.SessionConst;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
-@Controller
+
+/**
+ *
+ * /posts
+ * /posts/{postId}
+ */
+
 @Slf4j
-@RequestMapping("/post")
+@RestController
+@RequestMapping("/posts")
 public class PostController {
     private PostService postService;
 
@@ -31,31 +38,28 @@ public class PostController {
     }
 
     @GetMapping
-    public String posts(Model model) {
+    public List<Post>  posts() {
+
         List<Post> postList = postService.getPostList();
-        model.addAttribute(postList);
-        return "post/posts";
+
+        return postList;
     }
 
     /**
-     * 수정자: 오승윤
+     * 본인 요청시 전체 데이터 반환
+     * 피 본인 요청시 일부 데이터 반환
      *
-     * 로그인한 사람이 작성자 인지 아닌지에 따라서 보여주는게 달라야함
-     * 세션 로그인 데이터랑 포스트 작성자랑 일치할때 싱글톤 마스터키를 부여
-     * 마스터키는 뷰가 확인할수있는 추가 구분자임
-     * 마스터키가 온경우 전체데이터 보여주고 아닌경우 일부만 보여줌
-     * >이로써 관리자 창 기능 구현가능
+     * *도메인에 필터를 걸어 객체 반환하기 -> 아래 필터 메서드 정의 되어있음
+     * *반환 타입: MappingJacksonValue 이용
      */
     @GetMapping("/{postId}")
-    @ResponseBody
-    public Object postDetail(@PathVariable Long postId,HttpServletRequest request) {
+    public MappingJacksonValue postDetail(@PathVariable Long postId,HttpServletRequest request) {
+
         Post foundPost = postService.findPostById(postId);
-        log.info(foundPost.getWriter());
-        String Writer = foundPost.getWriter();
+        String WriterLoginId = foundPost.getWriter();
 
         /**
          * 세션에는 맴버 객체가 저장되어있다.
-         *
          */
         HttpSession session = request.getSession(false);
 
@@ -64,55 +68,83 @@ public class PostController {
             Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
             //로그인회원이 작성자일때
-            if (loginMember.getName().equals(Writer)) {
-                List<Object> list = new ArrayList<Object>();
-                list.add(foundPost);
-                list.add(MasterKey.masterKey); //싱글톤 객체
-
-                return list;
+            if (loginMember.getLoginId().equals(WriterLoginId)) {
+                MappingJacksonValue mapping = new MappingJacksonValue(foundPost);
+                mapping.setFilters(ALLPostInfo()); //모든정보 허용
+                return mapping;
 
             }
         }
 
-        return foundPost; //일부 게시판 정보 json
+        MappingJacksonValue mapping = new MappingJacksonValue(foundPost);
+        mapping.setFilters(PARTPostInfo()); //일부정보 허용
+
+        return mapping;
 
     }
 
-    @GetMapping("/create")
-    public String createPostForm() {
-        return "post/createPostForm";
-    }
 
+    /**
+     * 프론트 측에서 header에 담아준 url로 redirect 걸어야함
+     *
+     * ->새로고침시 중복등록 방지를 위해서
+     */
     @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        
         Post createdPost = postService.createPost(post);
 
-        // redirect할 때 url 인코딩 및 쿼리 파라미터 처리
-        redirectAttributes.addAttribute("postId", createdPost.getId());
-        redirectAttributes.addAttribute("status", true);
-
-
-        // 중복 저장을 막기 위해 PRG 패턴 적용
-        return "redirect:/post/{postId}";
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath() // 기본 uri
+                .path("/posts")
+                .path("/{postId}")
+                .buildAndExpand(createdPost.getId())
+                .toUri();
+        
+        return ResponseEntity.created(location).build(); //header에 location에 uri 담음
     }
 
-    // 이미 저장되어있는 post 객체를 찾아야하므로 postId를 pathVariable로 등록
-    @GetMapping("{postId}/update")
-    public String updatePostForm(@PathVariable Long postId, Model model) {
-        Post foundPost = postService.findPostById(postId);
-        model.addAttribute(foundPost);
-        return "post/updatePostForm";
+    /**
+     * 프론트 측에서 header에 담아준 url로 redirect 걸어야함
+     * ->새로고침시 중복등록 방지를 위해서
+     */
+    @PatchMapping("{postId}/update")
+    public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody Post post) {
 
-    }
-
-    @PostMapping("{postId}/update")
-    public String updatePost(@PathVariable Long postId, @ModelAttribute Post post, RedirectAttributes redirectAttributes) {
         postService.updatePost(postId, post);
 
-        // redirect할 때 쿼리 파라미터 처리
-        redirectAttributes.addAttribute("status", true);
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath() // 기본 uri
+                .path("/posts")
+                .path("/{postId}")
+                .buildAndExpand(postId)
+                .toUri();
 
-        // 중복 저장을 막기 위해 PRG 패턴 적용
-        return "redirect:/post/{postId}";
+        return ResponseEntity.created(location).build();
+    }
+
+
+    /**
+     * domain.post.Post.class   @JsonFilter("PostInfo")
+     * 해당 도메인 데이터에 필터기능 추가
+     * restAPI 필터 수업에 있음
+     */
+
+    //모든 정보를 허용
+    private FilterProvider ALLPostInfo(){
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
+                .filterOutAllExcept("id", "title", "body", "writer","creationDate","viewCnt","volunteers");
+
+        FilterProvider filters = new SimpleFilterProvider().addFilter("PostInfo", filter);
+
+        return filters;
+    }
+
+    //일부 정보를 허용
+    private FilterProvider PARTPostInfo(){
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
+                .filterOutAllExcept("id", "title", "body", "writer","creationDate","viewCnt");
+
+        FilterProvider filters = new SimpleFilterProvider().addFilter("PostInfo", filter);
+
+        return filters;
     }
 }

@@ -8,6 +8,7 @@ public interface MemberService {
     Member join(Member member);
     Member findMemberByUniqueId(Long id);
     Optional<Member> findMemberByLoginId(String LoginId);
-    boolean isPossible(Long id);
+    Member updateMember(String LoginId, Member updateParam);
+    boolean isPossibleLoginId(String Loginid);
     void out(Long id);
 }

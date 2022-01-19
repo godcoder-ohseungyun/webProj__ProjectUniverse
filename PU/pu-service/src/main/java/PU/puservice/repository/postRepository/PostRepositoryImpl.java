@@ -43,7 +43,6 @@ public class PostRepositoryImpl implements PostRepository{
         Post foundPost = store.get(id);
         foundPost.setTitle(updateParam.getTitle());
         foundPost.setBody(updateParam.getBody());
-        foundPost.setViewCnt(updateParam.getViewCnt());
     }
 
     @Override

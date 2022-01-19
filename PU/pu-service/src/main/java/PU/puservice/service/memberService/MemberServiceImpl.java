@@ -35,15 +35,17 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findByLoginId(LoginId);
     }
 
-    /**+
-     * 가입자 아이디가 unique한지 검사
-     */
     @Override
-    public boolean isPossible(Long id) {
-        for(Member member:memberRepository.findAll()){
-            if(member.getId() == id) return false;
-        }
-        return true;
+    public Member updateMember(String LoginId, Member updateParam) {
+        return memberRepository.update(LoginId,updateParam);
+    }
+
+
+    @Override
+    public boolean isPossibleLoginId(String LoginId) {
+
+        return !memberRepository.findByLoginId(LoginId).isPresent();
+
     }
 
     @Override

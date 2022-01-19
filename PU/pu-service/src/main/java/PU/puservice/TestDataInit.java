@@ -40,11 +40,11 @@ public class TestDataInit {
     @PostConstruct
     public void init(){
         //회원가입 회원 하나 생성
-        Member memberA = new Member(1L,"0602","0602","시작1호기");
-        memberService.join(memberA);
+        //Member memberA = new Member(1L,"0602","0602","시작1호기");
+        //memberService.join(memberA);
 
         //게시물 하나 생성
-        Post post1 = new Post(1l,"테스트파일","음","시작1호기",null);
+        Post post1 = new Post(1l,"테스트파일","음","시작1호기",null,1,null);
         postService.createPost(post1);
 
     }

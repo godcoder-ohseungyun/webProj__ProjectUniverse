@@ -32,6 +32,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return new ArrayList<>(store.values()); //values returns map so, convert to ArrayList
     }
 
+    /**
+     * findFirst는 없으면 NPE 발생
+     * 스트림이 빈경우는 NULL
+     */
     @Override
     public Optional<Member> findByLoginId(String loginId) {
         return findAll().stream()
@@ -40,11 +44,19 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public void update(Long id, Member updateParam) {
-        Member findmember = findById(id);
-        findmember.setId(updateParam.getId());
-        findmember.setName(updateParam.getName());
-        findmember.setGrade(updateParam.getGrade());
+    public Member update(String LoginId, Member updateParam) {
+        Member findmember = findByLoginId(LoginId).orElse(null);
+
+        if(findmember != null) {
+            findmember.setName(updateParam.getName());
+            findmember.setEmail(updateParam.getEmail());
+            findmember.setPhoto(updateParam.getPhoto());
+            findmember.setBody(updateParam.getBody());
+            findmember.setLinks(updateParam.getLinks());
+            findmember.setTags(updateParam.getTags());
+        }
+
+        return findmember;
     }
 
 
