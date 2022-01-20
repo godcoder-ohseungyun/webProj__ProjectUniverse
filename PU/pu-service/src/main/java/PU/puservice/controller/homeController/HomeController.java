@@ -3,48 +3,52 @@ package PU.puservice.controller.homeController;
 import PU.puservice.domain.member.Member;
 import PU.puservice.service.memberService.MemberService;
 import PU.puservice.session.SessionConst;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
 
 /**
  * 응답 헤더 LOCATION에 URI 담아주기 : 이때 상태코드 301로 되어야함, 지금은 처리 안되어있어서 201 OK임
- *
- * HTTP 스펙 살펴보기
- *
- * SPRING으로 HTTP 스펙 다루는거 정리하기
+ * LOCATION header: 3xx (redirection) 또는 201(created) 상태 응답 과 함께 제공될 때만 의미를 제공합니다 .
  */
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class HomeController {
 
     private final MemberService memberService;
 
+
+    @ApiOperation(value = "accessHomePage", notes = "로그인 여부에 따라 로그인 이후 메인페이지 접근을 결정합니다. \n - 비 로그인: 404 status  \n - 로그인: 로그인 회원에 대한 데이터 + ok status" )
     @GetMapping
-    public String accessHomePage(HttpServletRequest request, Model model) {
+    public Member accessHomePage(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession(false);
 
         //세션이 없으면 home
         if (session == null) {
-            return "main/home";
+            //404 Forbidden 발생시키기 :예외처리 
         }
 
         Member loginMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
-            return "main/home";
+            //404 Forbidden 발생시키기 :예외처리 
         }
 
-        //세션이 유지되면 로그인으로 이동
-        model.addAttribute("member", loginMember);
-        return "main/loginHome";
+        response.addHeader("Location", "Dddd");
+        //세션이 유지되고 로그인 할수있는 회원임이 확인되면
+        return loginMember; //로그인 멤버 데이터 함께반환
 
     }
 

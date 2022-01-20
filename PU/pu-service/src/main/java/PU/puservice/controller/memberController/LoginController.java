@@ -4,12 +4,16 @@ import PU.puservice.domain.loginForm.LoginForm;
 import PU.puservice.domain.member.Member;
 import PU.puservice.service.loginService.MemberLoginService;
 import PU.puservice.session.SessionConst;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 
 /**
@@ -28,45 +32,30 @@ public class LoginController {
 
     private final MemberLoginService memberLoginService;
 
-    @GetMapping
-    public String loginForm(@ModelAttribute LoginForm form){
-        return "login/loginForm";
-    }
 
-    /**
-     * 쿠키->세션으로 대체
-     * 필터적용
-     * redirectURL from LoginCheckFilter.java
-     */
+    @ApiOperation(value = "Client login", notes = "로그인 처리를 담당합니다.")
     @PostMapping
-    public String login(@ModelAttribute LoginForm form, @RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request){
+    public void login(@RequestBody LoginForm form, HttpServletRequest request, HttpServletResponse response){
+        
         Member loginMember  = memberLoginService.login(form.getLoginId(),form.getPassword());
 
         if(loginMember.equals(null)){
-            return "login/loginForm";
+            //401 발생시키기, 로그인 정보가 잘못됨
         }
 
-        /**
-         [기존코드]
-         Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
-         response.addCookie(idCookie);
 
-         쿠키 -> 세션으로 대체
-
-         응답 http header에 session data 대신 전달
-        */
         //로그인 성공 처리
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성: true
         HttpSession session = request.getSession(true);
-        //세션에 로그인 회원 정보 보관
+        //세션 헤더에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //bound name , value in bound
-
-        return "redirect:"+redirectURL; //request this url
+        //헤더 로케이션에 최근 요청 uri 담아서 반환 : 다시 돌아가게 redirect 권장
+        response.addHeader("Location", String.valueOf(ServletUriComponentsBuilder.fromCurrentRequestUri()));// 기본 uri
     }
 
-
+    @ApiOperation(value = "Client logout", notes = "로그아웃을 담당합니다.")
     @PostMapping("/logout") //WHY LOGOUT IS POST?
-    public String logout(HttpServletRequest request) {
+    public void logout(HttpServletRequest request) {
 
         /**
          [기존코드]
@@ -80,7 +69,8 @@ public class LoginController {
         if (session != null) {
             session.invalidate(); //세션 제거
         }
-         return "";
+        
+        //TODO: 204 발생시키기
     }
 
 }

@@ -7,6 +7,7 @@ import PU.puservice.session.SessionConst;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,8 @@ public class PostController {
         this.postService = postService;
     }
 
+
+    @ApiOperation(value = "return post datas", notes = "서버에 저장된 게시물들을 모두 반환합니다. json List")
     @GetMapping
     public List<Post>  posts() {
 
@@ -52,6 +55,8 @@ public class PostController {
      * *도메인에 필터를 걸어 객체 반환하기 -> 아래 필터 메서드 정의 되어있음
      * *반환 타입: MappingJacksonValue 이용
      */
+
+    @ApiOperation(value = "return Post data", notes = "url 매개변수 postId에 해당하는 post객체를 반환합니다. \n - 로그인회원이 게시자일때 post 객체의 모든 필드를 반환합니다.")
     @GetMapping("/{postId}")
     public MappingJacksonValue postDetail(@PathVariable Long postId,HttpServletRequest request) {
 
@@ -84,11 +89,10 @@ public class PostController {
     }
 
 
-    /**
-     * 프론트 측에서 header에 담아준 url로 redirect 걸어야함
-     *
-     * ->새로고침시 중복등록 방지를 위해서
-     */
+
+    @ApiOperation(value = "create Post data", notes = "넘겨받은 json data를 가지고 게시물을 등록합니다. \n " +
+            "- 응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다.\n " +
+            "- *중요* 새로고침시 중복등록을 방지하기위해 Location에 URL을 가지고 클라이언트는 redierct 해야합니다.")
     @PostMapping("/create")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
         
@@ -103,10 +107,10 @@ public class PostController {
         return ResponseEntity.created(location).build(); //header에 location에 uri 담음
     }
 
-    /**
-     * 프론트 측에서 header에 담아준 url로 redirect 걸어야함
-     * ->새로고침시 중복등록 방지를 위해서
-     */
+
+    @ApiOperation(value = "create Post data", notes = "넘겨받은 json data를 가지고 url 매개변수에 해당하는 게시물을 수정합니다. \n " +
+            "- 응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다.\n " +
+            "- *중요* 새로고침시 중복등록을 방지하기위해 Location에 URL을 가지고 클라이언트는 redierct 해야합니다.")
     @PatchMapping("{postId}/update")
     public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody Post post) {
 
@@ -127,7 +131,6 @@ public class PostController {
      * 해당 도메인 데이터에 필터기능 추가
      * restAPI 필터 수업에 있음
      */
-
     //모든 정보를 허용
     private FilterProvider ALLPostInfo(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter

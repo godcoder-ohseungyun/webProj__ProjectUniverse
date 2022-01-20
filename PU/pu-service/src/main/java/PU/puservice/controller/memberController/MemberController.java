@@ -2,6 +2,7 @@ package PU.puservice.controller.memberController;
 
 import PU.puservice.domain.member.Member;
 import PU.puservice.service.memberService.MemberService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +44,7 @@ public class MemberController {
     }
 
 
-    /**
-     * 회원가입
-     * 사용자가 입력한 LoginId 중복검사후 
-     * 이상없으면 회원가입 진행
-     */
+    @ApiOperation(value = "join", notes = "회원가입을 진행합니다. \n - 응답 HTTP header Location에 가입한 회원 프로필 링크를 반환합니다. \n - LoginId에 대하여 중복 검사를 합니다.")
     @PostMapping
     public ResponseEntity<Member> joinMember(@RequestBody Member member) throws Exception {
 
@@ -70,10 +67,7 @@ public class MemberController {
     }
 
 
-
-    /**
-     * 2.회원 정보 조회 : 프로필
-     */
+    @ApiOperation(value = "return Member data", notes = "uri 매개변수에 해당하는 LoginId를 보유한 회원데이터를 반환합니다.")
     @GetMapping("/{LoginId}")
     public Member viewMember(@PathVariable String LoginId) throws Exception {
 
@@ -82,10 +76,7 @@ public class MemberController {
         return findMember;
     }
 
-
-    /**
-     * 2.회원 정보 수정
-     */
+    @ApiOperation(value = "return Member data", notes = "넘겨받은 json data를 가지고 uri 매개변수에 해당하는 LoginId를 보유한 회원데이터를 수정합니다.")
     @PatchMapping("/{LoginId}")
     public Member updateMember(@PathVariable String LoginId,@RequestBody Member member) throws Exception {
         return memberService.updateMember(LoginId,member);

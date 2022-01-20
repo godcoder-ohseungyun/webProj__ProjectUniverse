@@ -37,8 +37,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Batch Swagger")
-                .description("batch execute swagger")
+                .title("Project Universe Backend")
+                .description("PU rest API service")
                 .version("1.0")
                 .build();
     }
