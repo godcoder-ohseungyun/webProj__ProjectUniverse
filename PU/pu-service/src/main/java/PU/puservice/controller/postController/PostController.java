@@ -39,7 +39,7 @@ public class PostController {
     }
 
 
-    @ApiOperation(value = "return post datas", notes = "서버에 저장된 게시물들을 모두 반환합니다. json List")
+    @ApiOperation(value = "전체 게시물 리스트 반환", notes = "서버에 저장된 게시물들을 모두 반환합니다. json List")
     @GetMapping
     public List<Post>  posts() {
 
@@ -56,7 +56,10 @@ public class PostController {
      * *반환 타입: MappingJacksonValue 이용
      */
 
-    @ApiOperation(value = "return Post data", notes = "url 매개변수 postId에 해당하는 post객체를 반환합니다. \n - 로그인회원이 게시자일때 post 객체의 모든 필드를 반환합니다.")
+    @ApiOperation(value = "게시물 상세정보", notes = "url 매개변수 postId에 해당하는 post객체를 반환합니다. " +
+            " \n - 게시물이 본인 소유인지 여부에 따라 공개되는 데이터가 상이합니다.  " +
+            " \n - 로그인회원이 게시자일때 post 객체의 모든 필드를 반환합니다. " +
+            " \n - 그렇지 않을경우 post 객체의 일부 필드를 반환합니다.")
     @GetMapping("/{postId}")
     public MappingJacksonValue postDetail(@PathVariable Long postId,HttpServletRequest request) {
 
@@ -90,9 +93,9 @@ public class PostController {
 
 
 
-    @ApiOperation(value = "create Post data", notes = "넘겨받은 json data를 가지고 게시물을 등록합니다. \n " +
-            "- 응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다.\n " +
-            "- *중요* 새로고침시 중복등록을 방지하기위해 Location에 URL을 가지고 클라이언트는 redierct 해야합니다.")
+    @ApiOperation(value = "게시물 등록", notes = "넘겨받은 json data를 가지고 게시물을 등록합니다. " +
+            " \n - 응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다." +
+            " \n - `*중요*` 새로고침시 중복등록을 방지하기위해 Location에 URL을 가지고 클라이언트는 redierct 해야합니다.")
     @PostMapping("/create")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
         
@@ -108,8 +111,8 @@ public class PostController {
     }
 
 
-    @ApiOperation(value = "create Post data", notes = "넘겨받은 json data를 가지고 url 매개변수에 해당하는 게시물을 수정합니다. \n " +
-            "- 응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다.\n " +
+    @ApiOperation(value = "게시물 수정", notes = "넘겨받은 json data를 가지고 url 매개변수에 해당하는 게시물을 수정합니다. \n " +
+            "- 응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다. \n " +
             "- *중요* 새로고침시 중복등록을 방지하기위해 Location에 URL을 가지고 클라이언트는 redierct 해야합니다.")
     @PatchMapping("{postId}/update")
     public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody Post post) {

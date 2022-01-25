@@ -47,7 +47,7 @@ public class MemberController {
     }
 
 
-    @ApiOperation(value = "join", notes = "회원가입을 진행합니다. \n - 응답 HTTP header Location에 가입한 회원 프로필 링크를 반환합니다. \n - LoginId에 대하여 중복 검사를 합니다.")
+    @ApiOperation(value = "회원가입 처리", notes = "회원가입을 진행합니다. \n - 응답 HTTP header Location에 가입한 회원 프로필 링크를 반환합니다. \n - LoginId에 대하여 중복 검사를 합니다.")
     @PostMapping
     public ResponseEntity<Member> joinMember(@RequestBody Member member) {
 
@@ -71,7 +71,8 @@ public class MemberController {
     }
 
 
-    @ApiOperation(value = "return Member data", notes = "uri 매개변수에 해당하는 LoginId를 보유한 회원데이터를 반환합니다.")
+    @ApiOperation(value = "회원 정보 반환", notes = "uri 매개변수에 해당하는 LoginId를 보유한 회원의 데이터를 반환합니다. \n - 프로필 기능 등에 사용될수있습니다." +
+            " \n - 없는 회원의 경우 NOT_FOUND 상태코드와 예외 메세지를 반환합니다.")
     @GetMapping("/{LoginId}")
     public Member viewMember(@PathVariable String LoginId) {
 
@@ -80,9 +81,9 @@ public class MemberController {
         return findMember;
     }
 
-    @ApiOperation(value = "return Member data", notes = "넘겨받은 json data를 가지고 uri 매개변수에 해당하는 LoginId를 보유한 회원데이터를 수정합니다.")
+    @ApiOperation(value = "회원 정보 수정", notes = "넘겨받은 json data를 가지고 uri 매개변수에 해당하는 LoginId를 보유한 회원데이터를 수정합니다.")
     @PatchMapping("/{LoginId}")
-    public Member updateMember(@PathVariable String LoginId,@RequestBody Member member) throws Exception {
+    public Member updateMember(@PathVariable String LoginId,@RequestBody Member member) {
         return memberService.updateMember(LoginId,member);
     }
 

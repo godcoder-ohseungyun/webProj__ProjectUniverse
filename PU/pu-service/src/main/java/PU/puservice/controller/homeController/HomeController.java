@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
 
-/**
- * 응답 헤더 LOCATION에 URI 담아주기 : 이때 상태코드 301로 되어야함, 지금은 처리 안되어있어서 201 OK임
- * LOCATION header: 3xx (redirection) 또는 201(created) 상태 응답 과 함께 제공될 때만 의미를 제공합니다 .
- */
+
 @RestController
 @RequiredArgsConstructor
 public class HomeController {
@@ -30,7 +27,10 @@ public class HomeController {
     private final MemberService memberService;
 
 
-    @ApiOperation(value = "accessHomePage", notes = "로그인 여부에 따라 로그인 이후 메인페이지 접근을 결정합니다. \n - 비 로그인: 404 status  \n - 로그인: 로그인 회원에 대한 데이터 + ok status" )
+    @ApiOperation(value = "메인페이지 접근 처리", notes = "로그인 여부에 따라 `로그인 이후 메인페이지` 접근을 결정합니다." +
+            " \n - `비 로그인` : 4xx 상태코드,에러 메세지 를 반환합니다.  " +
+            "\n - `로그인` : ok 상태코드, 로그인 회원 객체 데이터 , header Location에 로그인 회원 프로필 uri 를 반환합니다." )
+
     @GetMapping
     public Member accessHomePage(HttpServletRequest request, HttpServletResponse response) {
 
@@ -48,9 +48,13 @@ public class HomeController {
             throw new AccessDeniedException("login information is invalid.",HttpStatus.UNAUTHORIZED);
         }
 
-        response.addHeader("Location", "Dddd");
         //세션이 유지되고 로그인 할수있는 회원임이 확인되면
-        return loginMember; //로그인 멤버 데이터 함께반환
+        response.addHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/{LoginId}")
+                .buildAndExpand(loginMember.getLoginId())
+                .toUriString());
+
+        return loginMember;
 
     }
 

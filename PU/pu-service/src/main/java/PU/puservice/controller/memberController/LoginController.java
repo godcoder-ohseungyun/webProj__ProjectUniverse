@@ -29,14 +29,15 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/login")
 public class LoginController {
 
     private final MemberLoginService memberLoginService;
 
 
-    @ApiOperation(value = "Client login", notes = "로그인 처리를 담당합니다.")
-    @PostMapping
+    @ApiOperation(value = "로그인 처리", notes = "로그인 처리를 담당합니다. \n - 입력한 로그인 정보가 잘못된경우 UNAUTHORIZED 상태 코드와 에러 메세지를 반환합니다." +
+            "\n - 로그인에 성공한 경우 HTTP HEADER COOKIE에 세션 ID를 담아 반환합니다. " +
+            "\n - 또한 HTTP HEADER Location에 redirect해야하는 uri를 반환합니다. 클라이언트는 반드시 해당 uri로 사용자를 redirect 시켜야 합니다.")
+    @PostMapping("/login")
     public void login(@RequestBody LoginForm form, HttpServletRequest request, HttpServletResponse response){
         
         Member loginMember  = memberLoginService.login(form.getLoginId(),form.getPassword());
@@ -54,12 +55,13 @@ public class LoginController {
 
         //헤더 로케이션에 최근 요청 uri 담아서 반환 : 다시 돌아가게 redirect 권장
         //TODO: 아래 구문 잘못되었음 수정해야함
-        response.addHeader("Location", String.valueOf(ServletUriComponentsBuilder.fromCurrentRequestUri()));// 기본 uri
+        response.addHeader("Location", ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString());
     }
     
     @ResponseStatus(HttpStatus.NO_CONTENT) //상태코드 부여
-    @ApiOperation(value = "Client logout", notes = "로그아웃을 담당합니다.")
-    @PostMapping("/logout") //WHY LOGOUT IS POST?
+    @ApiOperation(value = "로그아웃 처리", notes = "로그아웃을 담당합니다." +
+            " \n - 세션을 폐기합니다.")
+    @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
 
 
