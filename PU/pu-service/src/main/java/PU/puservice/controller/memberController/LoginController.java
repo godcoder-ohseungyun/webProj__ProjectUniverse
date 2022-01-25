@@ -2,10 +2,12 @@ package PU.puservice.controller.memberController;
 
 import PU.puservice.domain.loginForm.LoginForm;
 import PU.puservice.domain.member.Member;
+import PU.puservice.exception.AccessDeniedException;
 import PU.puservice.service.loginService.MemberLoginService;
 import PU.puservice.session.SessionConst;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -40,7 +42,7 @@ public class LoginController {
         Member loginMember  = memberLoginService.login(form.getLoginId(),form.getPassword());
 
         if(loginMember.equals(null)){
-            //401 발생시키기, 로그인 정보가 잘못됨
+            throw new AccessDeniedException("login information is invalid.", HttpStatus.UNAUTHORIZED);
         }
 
 
@@ -49,19 +51,17 @@ public class LoginController {
         HttpSession session = request.getSession(true);
         //세션 헤더에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //bound name , value in bound
+
         //헤더 로케이션에 최근 요청 uri 담아서 반환 : 다시 돌아가게 redirect 권장
+        //TODO: 아래 구문 잘못되었음 수정해야함
         response.addHeader("Location", String.valueOf(ServletUriComponentsBuilder.fromCurrentRequestUri()));// 기본 uri
     }
-
+    
+    @ResponseStatus(HttpStatus.NO_CONTENT) //상태코드 부여
     @ApiOperation(value = "Client logout", notes = "로그아웃을 담당합니다.")
     @PostMapping("/logout") //WHY LOGOUT IS POST?
     public void logout(HttpServletRequest request) {
 
-        /**
-         [기존코드]
-         expireCookie(response, "memberId"); //쿠키 폐기
-         쿠키->세션으로 대체
-        */
 
         //세션을 삭제한다.
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성안함: false
@@ -70,7 +70,7 @@ public class LoginController {
             session.invalidate(); //세션 제거
         }
         
-        //TODO: 204 발생시키기
+
     }
 
 }

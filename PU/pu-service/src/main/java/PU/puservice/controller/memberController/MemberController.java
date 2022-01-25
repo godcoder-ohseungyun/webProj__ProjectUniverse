@@ -1,10 +1,13 @@
 package PU.puservice.controller.memberController;
 
 import PU.puservice.domain.member.Member;
+import PU.puservice.exception.AccessDeniedException;
+import PU.puservice.exception.UserNotFoundException;
 import PU.puservice.service.memberService.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +49,9 @@ public class MemberController {
 
     @ApiOperation(value = "join", notes = "회원가입을 진행합니다. \n - 응답 HTTP header Location에 가입한 회원 프로필 링크를 반환합니다. \n - LoginId에 대하여 중복 검사를 합니다.")
     @PostMapping
-    public ResponseEntity<Member> joinMember(@RequestBody Member member) throws Exception {
+    public ResponseEntity<Member> joinMember(@RequestBody Member member) {
 
+        //id 중복검사
         if (memberService.isPossibleLoginId(member.getLoginId())) {
 
             Member savedMember = memberService.join(member);
@@ -63,15 +67,15 @@ public class MemberController {
             return ResponseEntity.created(location).build();
         }
 
-        throw new Exception("ID가 유효하지 않습니다.");
+        throw new AccessDeniedException("id must be unique", HttpStatus.BAD_REQUEST);
     }
 
 
     @ApiOperation(value = "return Member data", notes = "uri 매개변수에 해당하는 LoginId를 보유한 회원데이터를 반환합니다.")
     @GetMapping("/{LoginId}")
-    public Member viewMember(@PathVariable String LoginId) throws Exception {
+    public Member viewMember(@PathVariable String LoginId) {
 
-        Member findMember = memberService.findMemberByLoginId(LoginId).orElseThrow(()->new Exception("없는 회원 입니다."));
+        Member findMember = memberService.findMemberByLoginId(LoginId).orElseThrow(()->new UserNotFoundException("없는 회원 입니다.",HttpStatus.NOT_FOUND));
 
         return findMember;
     }

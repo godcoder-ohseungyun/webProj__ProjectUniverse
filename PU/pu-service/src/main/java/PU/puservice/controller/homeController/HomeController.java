@@ -1,10 +1,12 @@
 package PU.puservice.controller.homeController;
 
 import PU.puservice.domain.member.Member;
+import PU.puservice.exception.AccessDeniedException;
 import PU.puservice.service.memberService.MemberService;
 import PU.puservice.session.SessionConst;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -36,14 +38,14 @@ public class HomeController {
 
         //세션이 없으면 home
         if (session == null) {
-            //404 Forbidden 발생시키기 :예외처리 
+            throw new AccessDeniedException("Block access to users who are not logged in.",HttpStatus.UNAUTHORIZED);
         }
 
         Member loginMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
-            //404 Forbidden 발생시키기 :예외처리 
+            throw new AccessDeniedException("login information is invalid.",HttpStatus.UNAUTHORIZED);
         }
 
         response.addHeader("Location", "Dddd");
