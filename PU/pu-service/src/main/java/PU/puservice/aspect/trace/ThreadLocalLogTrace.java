@@ -1,8 +1,8 @@
-package PU.puservice.logTrace.trace;
+package PU.puservice.aspect.trace;
 
 
-import PU.puservice.logTrace.traceId.TraceId;
-import PU.puservice.logTrace.traceId.TraceStatus;
+import PU.puservice.aspect.traceId.TraceId;
+import PU.puservice.aspect.traceId.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

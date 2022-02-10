@@ -1,4 +1,4 @@
-package PU.puservice.logTrace.traceId;
+package PU.puservice.aspect.traceId;
 
 public class TraceStatus {
 

@@ -1,4 +1,4 @@
-package PU.puservice;
+package PU.puservice.Config;
 
 
 import PU.puservice.domain.member.Member;

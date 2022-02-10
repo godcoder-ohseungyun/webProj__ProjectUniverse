@@ -1,8 +1,7 @@
-package PU.puservice.logTrace.logProxy;
+package PU.puservice.aspect.logProxy;
 
-import PU.puservice.logTrace.trace.LogTrace;
-import PU.puservice.logTrace.traceId.TraceStatus;
-import lombok.RequiredArgsConstructor;
+import PU.puservice.aspect.trace.LogTrace;
+import PU.puservice.aspect.traceId.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -21,7 +20,7 @@ public class LogTraceAspect {
         this.logTrace = logTrace;
     }
 
-    @Around("execution(* PU.puservice..*(..))") //TODO: The dependencies of some of the beans in the application context form a cycle !!
+    @Around("execution(* PU.puservice..*.*(..)) && !execution(* PU.puservice.aspect..*.*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         TraceStatus status = null;
 

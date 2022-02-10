@@ -1,7 +1,7 @@
-package PU.puservice.logTrace.trace;
+package PU.puservice.aspect.trace;
 
 
-import PU.puservice.logTrace.traceId.TraceStatus;
+import PU.puservice.aspect.traceId.TraceStatus;
 
 public interface LogTrace {
 
