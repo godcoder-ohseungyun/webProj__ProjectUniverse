@@ -20,6 +20,8 @@ public class LogTraceAspect {
         this.logTrace = logTrace;
     }
 
+    
+    //AOP 자체가 AOP의 대상이 되어 빈등록 과정에서 Stackoverflow 발생하는 문제 해결: !execution(* PU.puservice.aspect..*.*(..)) 대상에서 제외
     @Around("execution(* PU.puservice..*.*(..)) && !execution(* PU.puservice.aspect..*.*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         TraceStatus status = null;
