@@ -23,7 +23,7 @@ public class Post {
     private String body;
 
     private String writer; //LoginId가 저장될 예정
-    private LocalDate creationDate = null;
+    private LocalDate creationDate = null; //등록일 이후 일정 기간이 지나면 삭제: 공고 가능기간 제어
     private int viewCnt = 0;
 
     @ApiParam(value = "이 부분은 작성자 본인만 볼수있도록 서버측에서 제한합니다.", required = false)

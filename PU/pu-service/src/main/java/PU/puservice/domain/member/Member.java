@@ -25,6 +25,6 @@ public class Member {
     private String body;
     private String links;
     private String tags;
-    private List<String> projectList; //참여하고있는 공고 진행중인 프로젝트 리스트
+    private List<String> projectList; //내가 참여하고있는 공고 진행중인 프로젝트
 
 }

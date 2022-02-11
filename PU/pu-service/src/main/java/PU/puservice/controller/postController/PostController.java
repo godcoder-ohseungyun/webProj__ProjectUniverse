@@ -107,6 +107,8 @@ public class PostController {
                 .buildAndExpand(createdPost.getId())
                 .toUri();
         
+        //TODO: 프로필 projectList에 해당 게시물 추가  ID를 이용 , 또한 게시물 삭제 기능 만들어야함 -> 삭제시 각 프로필에 프로젝트 리스트도 삭제해야함 -> 게시물 삭제는 한달경과 자동삭제 수동삭제 2개로 분류 예정
+
         return ResponseEntity.created(location).build(); //header에 location에 uri 담음
     }
 

@@ -8,6 +8,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+/**
+ * traceId -> trace -> logProxy
+ * 로그 추적기를 적용하는 어드바이저 입니다.
+ * -자바 리플랙션,빈후처리기,동적프록시,프록시 팩토리
+ */
 
 @Component //컴포넌트 스캔: 빈 등록
 @Aspect
