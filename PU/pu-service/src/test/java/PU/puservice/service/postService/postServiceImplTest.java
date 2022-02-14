@@ -24,7 +24,7 @@ class postServiceImplTest {
     void createPost() {
         // given
         LocalDate now = LocalDate.now();
-        Post post = new Post(1L, "testPost", "testPost_desc", "Lee", now);
+        Post post = new Post(1L, "testPost", "testPost_desc");
 
         // when
         postService.createPost(post);
@@ -38,9 +38,9 @@ class postServiceImplTest {
     void getPostList() {
         // given
         LocalDate now = LocalDate.now();
-        Post post1 = new Post(1L, "testPost1", "testPost1_desc", "Lee1", now);
-        Post post2 = new Post(2L, "testPost2", "testPost2_desc", "Lee2", now);
-        Post post3 = new Post(3L, "testPost3", "testPost3_desc", "Lee3", now);
+        Post post1 = new Post(1L, "testPost1", "testPost1_desc");
+        Post post2 = new Post(2L, "testPost2", "testPost2_desc");
+        Post post3 = new Post(3L, "testPost3", "testPost3_desc");
 
         // when
         postService.createPost(post1);
@@ -58,8 +58,8 @@ class postServiceImplTest {
     void updatePost() {
         // given
         LocalDate now = LocalDate.now();
-        Post post1 = new Post(1L, "testPost1", "testPost1_desc", "Lee1", now);
-        Post post2 = new Post(2L, "testPost2", "testPost2_desc", "Lee2", now);
+        Post post1 = new Post(1L, "testPost1", "testPost1_desc");
+        Post post2 = new Post(2L, "testPost2", "testPost2_desc");
 
         // when
         postService.createPost(post1);
@@ -79,7 +79,7 @@ class postServiceImplTest {
     void deletePost() {
         // given
         LocalDate now = LocalDate.now();
-        Post post1 = new Post(1L, "testPost1", "testPost1_desc", "Lee1", now);
+        Post post1 = new Post(1L, "testPost1", "testPost1_desc");
 
         // when
         postService.createPost(post1);

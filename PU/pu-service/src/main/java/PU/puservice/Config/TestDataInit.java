@@ -1,8 +1,10 @@
 package PU.puservice.Config;
 
 
+import PU.puservice.controller.memberController.LoginController;
 import PU.puservice.domain.member.Member;
 import PU.puservice.domain.post.Post;
+import PU.puservice.service.loginService.MemberLoginService;
 import PU.puservice.service.memberService.MemberService;
 import PU.puservice.service.postService.PostService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class TestDataInit {
     //알아서 주입 됨 RequiredArgsConstructor
     private final MemberService memberService;
     private final PostService postService;
+    private final MemberLoginService memberLoginService;
 
     /**
     //RequiredArgsConstructor 에너테이션으로 final 필드 생성자 자동 생성
@@ -40,12 +43,13 @@ public class TestDataInit {
     @PostConstruct
     public void init(){
         //회원가입 회원 하나 생성
-        Member memberA = new Member(1L,"startUser","0602","시작1호기","Dd","Dd","Dd","Dd","Dd",null);
+        Member memberA = new Member(1L,"startUser","0602","시작1호기");
         memberService.join(memberA);
 
         //게시물 하나 생성
-        Post post1 = new Post(1l,"테스트파일","음","시작1호기",null,1,null);
+        Post post1 = new Post(1L,"테스트파일","음");
         postService.createPost(post1);
+
 
     }
 }
