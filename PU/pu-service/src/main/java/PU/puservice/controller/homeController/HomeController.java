@@ -57,7 +57,7 @@ public class HomeController {
     }
 
 
-    @ApiOperation(value = "홈 상단에 표시될 메세지 창 데이터를 반환", notes = "isRead 값에 true 읽음 false 읽지않음을 표기합니다.")
+    @ApiOperation(value = "로그인한 회원 메세지 리스트 데이터를 반환", notes = "isRead 값에 true 읽음 false 읽지않음을 표기합니다.")
     @GetMapping("/msgs")
     public LinkedList<MsgForm> getMsgList(HttpServletRequest request){
 
