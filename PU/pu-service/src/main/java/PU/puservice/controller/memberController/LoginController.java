@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
  * 로그아웃: /logout
  */
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class LoginController {
 

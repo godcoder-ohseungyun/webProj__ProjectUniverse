@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel(description = "승인 요청 json data -> 컨버팅 ")
 public class ApproveForm {
-    private String loginId;
+    private String loginId; //지원자 로그인아이디
     private String msg;
     private Long postId;
 }

@@ -45,6 +45,7 @@ public class PostController {
 
         List<Post> postList = postService.getPostList();
 
+        //todo: 로그인 인터셉터 적용
         return postList;
     }
 
