@@ -31,8 +31,6 @@ public class Post {
 
 
 
-
-
     public Post(Long id,String title, String body) {
         this.id = id;
         this.title = title;

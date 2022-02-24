@@ -22,7 +22,6 @@ import java.util.List;
 
 
 /**
- *
  * /posts
  * /posts/{postId}
  */
@@ -41,18 +40,18 @@ public class PostController {
 
     @ApiOperation(value = "전체 게시물 리스트 반환", notes = "서버에 저장된 게시물들을 모두 반환합니다. json List")
     @GetMapping
-    public List<Post>  posts() {
+    public MappingJacksonValue posts() {
 
-        List<Post> postList = postService.getPostList();
-
-        //todo: 로그인 인터셉터 적용
+        MappingJacksonValue postList = new MappingJacksonValue(postService.getPostList());
+        postList.setFilters(PARTPostInfo());
+        //todo: 로그인 인터셉터 적용 + JsonFilter가 문제임...
         return postList;
     }
 
     /**
      * 본인 요청시 전체 데이터 반환
      * 피 본인 요청시 일부 데이터 반환
-     *
+     * <p>
      * *도메인에 필터를 걸어 객체 반환하기 -> 아래 필터 메서드 정의 되어있음
      * *반환 타입: MappingJacksonValue 이용
      */
@@ -62,7 +61,7 @@ public class PostController {
             " \n - 로그인회원이 게시자일때 post 객체의 모든 필드를 반환합니다. " +
             " \n - 그렇지 않을경우 post 객체의 일부 필드를 반환합니다.")
     @GetMapping("/{postId}")
-    public MappingJacksonValue postDetail(@PathVariable Long postId,HttpServletRequest request) {
+    public MappingJacksonValue postDetail(@PathVariable Long postId, HttpServletRequest request) {
 
         Post foundPost = postService.findPostById(postId);
         String WriterLoginId = foundPost.getWriter();
@@ -73,25 +72,24 @@ public class PostController {
         HttpSession session = request.getSession(false);
 
         //새션이 존재하면
-        if (session!=null) {
+        if (session != null) {
             Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
             //로그인회원이 작성자일때
             if (loginMember.getLoginId().equals(WriterLoginId)) {
-                MappingJacksonValue mapping = new MappingJacksonValue(foundPost);
-                mapping.setFilters(ALLPostInfo()); //모든정보 허용
-                return mapping;
+                MappingJacksonValue allPostData = new MappingJacksonValue(foundPost);
+                allPostData.setFilters(ALLPostInfo()); //모든정보 허용
+                return allPostData;
 
             }
         }
 
-        MappingJacksonValue mapping = new MappingJacksonValue(foundPost);
-        mapping.setFilters(PARTPostInfo()); //일부정보 허용
+        MappingJacksonValue partPostData = new MappingJacksonValue(foundPost);
+        partPostData.setFilters(PARTPostInfo()); //일부정보 허용
 
-        return mapping;
+        return partPostData;
 
     }
-
 
 
     @ApiOperation(value = "게시물 등록", notes = "넘겨받은 json data를 가지고 게시물을 등록합니다. " +
@@ -99,7 +97,7 @@ public class PostController {
             " \n - `*중요*` 새로고침시 중복등록을 방지하기위해 Location에 URL을 가지고 클라이언트는 redierct 해야합니다.")
     @PostMapping("/create")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        
+
         Post createdPost = postService.createPost(post);
 
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath() // 기본 uri
@@ -107,7 +105,7 @@ public class PostController {
                 .path("/{postId}")
                 .buildAndExpand(createdPost.getId())
                 .toUri();
-        
+
         //TODO: 프로필 projectList에 해당 게시물 추가  ID를 이용 , 또한 게시물 삭제 기능 만들어야함 -> 삭제시 각 프로필에 프로젝트 리스트도 삭제해야함 -> 게시물 삭제는 한달경과 자동삭제 수동삭제 2개로 분류 예정
 
         return ResponseEntity.created(location).build(); //header에 location에 uri 담음
@@ -133,14 +131,14 @@ public class PostController {
 
 
     /**
-     * domain.post.Post.class   @JsonFilter("PostInfo")
+     * domain.post.Post.class   @JsonFilter("PostInfo") ================================================================
      * 해당 도메인 데이터에 필터기능 추가
      * restAPI 필터 수업에 있음
      */
     //모든 정보를 허용
-    private FilterProvider ALLPostInfo(){
+    private FilterProvider ALLPostInfo() {
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
-                .filterOutAllExcept("id", "title", "body", "writer","creationDate","viewCnt","volunteers");
+                .filterOutAllExcept("id", "title", "body", "writer", "creationDate", "viewCnt", "volunteers");
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("PostInfo", filter);
 
@@ -148,9 +146,9 @@ public class PostController {
     }
 
     //일부 정보를 허용
-    private FilterProvider PARTPostInfo(){
+    private FilterProvider PARTPostInfo() {
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
-                .filterOutAllExcept("id", "title", "body", "writer","creationDate","viewCnt");
+                .filterOutAllExcept("id", "title", "body", "writer", "creationDate", "viewCnt");
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("PostInfo", filter);
 

@@ -50,6 +50,7 @@ public class TestDataInit {
         Post post1 = new Post(1L,"테스트파일","음");
         postService.createPost(post1);
 
-
+        Post post2 = new Post(2l,"테스트파일2","응");
+        postService.createPost(post2);
     }
 }

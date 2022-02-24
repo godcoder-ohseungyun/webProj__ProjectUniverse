@@ -23,7 +23,7 @@ public class Member {
     @ApiParam(value = "프로필에 표시될 데이터 목록", required = false)
     private String name;
     private String email = "";
-    private String photo; // 이부분은 추후에 파일 업로드 공부해서 바꿔야 할듯 <-???
+    private String photo; // 이부분은 추후에 파일 업로드 공부해서 바꿔야 할듯
     private String body;
     private String links;
     private String tags;
