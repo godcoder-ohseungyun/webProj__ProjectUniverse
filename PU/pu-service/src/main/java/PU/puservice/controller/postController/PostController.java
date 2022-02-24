@@ -44,7 +44,7 @@ public class PostController {
 
         MappingJacksonValue postList = new MappingJacksonValue(postService.getPostList());
         postList.setFilters(PARTPostInfo());
-        //todo: 로그인 인터셉터 적용 + JsonFilter가 문제임...
+
         return postList;
     }
 
