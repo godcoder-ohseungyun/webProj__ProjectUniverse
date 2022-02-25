@@ -13,17 +13,17 @@ public class WebConfig implements WebMvcConfigurer {
      * 인터셉터 등록
      * interceptor/LoginCheckInterceptor.java
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(new LoginCheckInterceptor())
-                .order(1)
-                .addPathPatterns("/**")
-                .excludePathPatterns(
-                        "/", "/join", "/login", "/logout",
-                        "/css/**", "/*.ico", "/error" ,"/swagger-ui/index.html#/"
-                );
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//
+//        registry.addInterceptor(new LoginCheckInterceptor())
+//                .order(1)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(
+//                        "/", "/join", "/login", "/logout",
+//                        "/css/**", "/*.ico", "/error"
+//                );  //스웨거 /swagger-ui/index.html는 왜 제외 안되는???
+//    }
 
     private final long MAX_AGE_SECS = 3600;
     /**
