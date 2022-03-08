@@ -1,73 +1,51 @@
 package PU.puservice.repository.memberRepository;
 
 import PU.puservice.domain.member.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepository {
 
-    private Map<Long,Member> store = new ConcurrentHashMap<>();
-    private Long uniqueId = 0L; //임시
+    private final EntityManager em;
 
     @Override
     public Member save(Member member) {
-        member.setId(uniqueId++);//임시: 별도 unique id 생성 로직 짜야함
-        store.put(member.getId(),member);
+        em.persist(member);
         return member;
     }
 
     @Override
-    public Member findById(Long id) {
-        return store.get(id);
-    }
-
-    @Override
     public List<Member> findAll() {
-        return new ArrayList<>(store.values()); //values returns map so, convert to ArrayList
-    }
-
-    /**
-     * findFirst는 없으면 NPE 발생
-     * 스트림이 빈경우는 NULL
-     */
-    @Override
-    public Optional<Member> findByLoginId(String loginId) {
-        return findAll().stream()
-                .filter(m -> m.getLoginId().equals(loginId))
-                .findFirst();
+        return em.createQuery("select m from Member m").getResultList();
     }
 
     @Override
-    public Member update(String LoginId, Member updateParam) {
-        Member findmember = findByLoginId(LoginId).orElse(null);
-
-        if(findmember != null) {
-            findmember.setName(updateParam.getName());
-            findmember.setEmail(updateParam.getEmail());
-            findmember.setPhoto(updateParam.getPhoto());
-            findmember.setBody(updateParam.getBody());
-            findmember.setLinks(updateParam.getLinks());
-            findmember.setTags(updateParam.getTags());
-        }
-
-        return findmember;
-    }
-
-
-    @Override
-    public void delete(Long id){
-        store.remove(id);
+    public Member findByLoginId(String loginId) {
+        return em.find(Member.class, loginId);
     }
 
     @Override
-    public void clearStore() {
-        store.clear();
+    public Member update(String LoginId, UpdateMemberDTO umd) {
+        Member foundMember = findByLoginId(LoginId);
+
+        foundMember.setName(umd.getName());
+        foundMember.setEmail(umd.getEmail());
+        foundMember.setPhoto(umd.getPhoto());
+        foundMember.setBody(umd.getBody());
+        foundMember.setLinks(umd.getLinks());
+        foundMember.setTags(umd.getTags());
+
+        return foundMember;
+    }
+
+    @Override
+    public void delete(String loginId){
+        em.createQuery("delete from Member m where m.id =: loginId").setParameter("loginId", loginId).executeUpdate();
     }
 
 }

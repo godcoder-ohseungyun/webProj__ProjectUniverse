@@ -1,8 +1,10 @@
 package PU.puservice.repository.postRepository;
 
 import PU.puservice.domain.post.Post;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,48 +12,42 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepository{
-    private static Map<Long, Post> store = new HashMap<>();
-    private static long sequence = 0L;
 
-    // test용 메소드
-    public void setSequence(Long sequence) {
-        this.sequence = sequence;
-    }
+    private final EntityManager em;
 
     @Override
     public Post save(Post post) {
-        post.setId(++sequence);
         LocalDate now = LocalDate.now();
         post.setCreationDate(now);
-        store.put(post.getId(), post);
+
+        // 영속성 컨텍스트에 Post 객체 저장
+        em.persist(post);
+
         return post;
     }
 
     @Override
     public Post findById(Long id) {
-        return store.get(id);
+        return em.find(Post.class, id);
     }
 
     @Override
     public List<Post> findAll() {
-        return new ArrayList<>(store.values());
+        return em.createQuery("select p from Post p", Post.class).getResultList();
     }
 
     @Override
-    public void update(Long id, Post updateParam) {
-        Post foundPost = store.get(id);
-        foundPost.setTitle(updateParam.getTitle());
-        foundPost.setBody(updateParam.getBody());
+    public void update(Long id, String title, String body) {
+        Post foundPost = findById(id);
+        foundPost.setTitle(title);
+        foundPost.setBody(body);
     }
 
     @Override
     public void delete(Long id) {
-        store.remove(id);
-    }
-
-    @Override
-    public void clearStore() {
-        store.clear();
+        // 인수로 받은 id를 사용해 Post 삭제하는 쿼리문 생성
+        em.createQuery("delete from Post p where p.id =:postId").setParameter("postId", id).executeUpdate();
     }
 }

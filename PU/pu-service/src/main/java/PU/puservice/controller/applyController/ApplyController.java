@@ -51,29 +51,29 @@ public class ApplyController {
             throw new AccessDeniedException("login information is invalid.", HttpStatus.UNAUTHORIZED);
         }
 
-        Post findPost = postService.findPostById(postId);
+        Post foundPost = postService.findPostById(postId);
 
         //해당 게시물 지원자 목록에 로그인한 회원 loginId 저장
-        findPost.getVolunteers().add(loginMember.getLoginId());
+        foundPost.getVolunteers().add(loginMember);
     }
 
-    @ApiOperation(value = "지원자 승인", notes = "지원자 승인시 지원자에게 간단한 메세지와 함께 승인 알림을 전송합니다 \n - 게시물 id , 지원자 loginId , 승인메시지가 필요 ")
-    @PostMapping("/approve")
-    public void approve(@RequestBody ApproveForm approveForm) {
-        
-        Member findMember = memberService.findMemberByLoginId(approveForm.getLoginId()).orElseThrow(()->new UserNotFoundException("없는 회원 입니다.",HttpStatus.NOT_FOUND));
-        Post findPost = postService.findPostById(approveForm.getPostId());
-        
-        //메시지 가공
-        String createMsg = String.format("%s 님으로 부터의 메세지 , 공고제목: %s , 내용: %s"
-                , findPost.getWriter(), findPost.getTitle() ,approveForm.getMsg());
-
-        MsgForm msgForm = new MsgForm(false,createMsg);
-
-        //지원자 프로필에 메세지 목록에 저장 / 제일 앞에 저장
-        findMember.getMsgs().add(msgForm);
-        
-    }
+//    @ApiOperation(value = "지원자 승인", notes = "지원자 승인시 지원자에게 간단한 메세지와 함께 승인 알림을 전송합니다 \n - 게시물 id , 지원자 loginId , 승인메시지가 필요 ")
+//    @PostMapping("/approve")
+//    public void approve(@RequestBody ApproveForm approveForm) {
+//
+//        Member foundMember = memberService.findMemberByLoginId(approveForm.getLoginId()).orElseThrow(()->new UserNotFoundException("없는 회원 입니다.",HttpStatus.NOT_FOUND));
+//        Post foundPost = postService.findPostById(approveForm.getPostId());
+//
+//        //메시지 가공
+//        String createMsg = String.format("%s 님으로 부터의 메세지 , 공고제목: %s , 내용: %s"
+//                , foundPost.getWriter(), foundPost.getTitle() ,approveForm.getMsg());
+//
+//        MsgForm msgForm = new MsgForm(false,createMsg);
+//
+//        //지원자 프로필에 메세지 목록에 저장 / 제일 앞에 저장
+//        foundMember.getMsgs().add(msgForm);
+//
+//    }
 
     
 }

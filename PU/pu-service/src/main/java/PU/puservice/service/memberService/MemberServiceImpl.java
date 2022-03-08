@@ -2,6 +2,7 @@ package PU.puservice.service.memberService;
 
 import PU.puservice.domain.member.Member;
 import PU.puservice.repository.memberRepository.MemberRepository;
+import PU.puservice.repository.memberRepository.UpdateMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,14 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
-
-
-    private MemberRepository memberRepository;
-
-    @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    private final MemberRepository memberRepository;
 
     @Override
     public Member join(Member member) {
@@ -26,30 +20,25 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findMemberByUniqueId(Long id) {
-        return memberRepository.findById(id);
+    public Member findMemberByLoginId(String loginId){
+        return memberRepository.findByLoginId(loginId);
     }
 
     @Override
-    public Optional<Member> findMemberByLoginId(String LoginId){
-        return memberRepository.findByLoginId(LoginId);
+    public Member updateMember(String loginId, UpdateMemberDTO umd) {
+        return memberRepository.update(loginId, umd);
     }
 
-    @Override
-    public Member updateMember(String LoginId, Member updateParam) {
-        return memberRepository.update(LoginId,updateParam);
-    }
-
-
-    @Override
-    public boolean isPossibleLoginId(String LoginId) {
-
-        return !memberRepository.findByLoginId(LoginId).isPresent();
-
-    }
+    // validation으로 대체
+//    @Override
+//    public boolean isPossibleLoginId(String loginId) {
+//
+//        return !memberRepository.findByLoginId(loginId).isPresent();
+//
+//    }
 
     @Override
-    public void out(Long id) {
-        memberRepository.delete(id);
+    public void delete(String loginId) {
+        memberRepository.delete(loginId);
     }
 }

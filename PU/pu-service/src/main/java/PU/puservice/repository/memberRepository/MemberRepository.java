@@ -8,15 +8,11 @@ import java.util.Optional;
 public interface MemberRepository {
     Member save(Member member);
 
-    Member findById(Long id);
-
     List<Member> findAll();
 
-    Optional<Member> findByLoginId(String loginId);
+    Member findByLoginId(String loginId);
 
-    Member update(String LoginId, Member updateParam);
+    Member update(String LoginId, UpdateMemberDTO umd);
 
-    void delete(Long id);
-
-    void clearStore();
+    void delete(String loginId);
 }

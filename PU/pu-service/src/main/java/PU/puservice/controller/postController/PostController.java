@@ -30,7 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/posts")
 public class PostController {
-    private PostService postService;
+    private final PostService postService;
 
     @Autowired
     public PostController(PostService postService) {
@@ -118,7 +118,7 @@ public class PostController {
     @PatchMapping("{postId}/update")
     public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody Post post) {
 
-        postService.updatePost(postId, post);
+        postService.updatePost(postId, post.getTitle(), post.getBody());
 
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath() // 기본 uri
                 .path("/posts")

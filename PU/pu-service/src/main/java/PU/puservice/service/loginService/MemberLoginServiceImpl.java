@@ -18,8 +18,8 @@ public class MemberLoginServiceImpl implements MemberLoginService{
      * @param password 사용자 입력 pw
      * @return loginid로 member store 조회 저장된 객체와 pw 일치하면 해당 객체 반환 else null
      */
-    @Override
-    public Member login(String loginId,String password){
-        return memberRepository.findByLoginId(loginId).filter(m->m.getPassword().equals(password)).orElse(null);
-    }
+//    @Override
+//    public Member login(String loginId,String password){
+//        return memberRepository.findByLoginId(loginId).filter(m->m.getPassword().equals(password)).orElse(null);
+//    }
 }
