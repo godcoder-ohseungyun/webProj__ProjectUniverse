@@ -25,9 +25,7 @@ public class HomeController {
     private final MemberService memberService;
 
 
-    @ApiOperation(value = "메인페이지 접근 처리", notes = "로그인 여부에 따라 `로그인 이후 메인페이지` 접근을 결정합니다." +
-            " \n - `비 로그인` : 4xx 상태코드,에러 메세지 를 반환합니다.  " +
-            "\n - `로그인` : ok 상태코드, 로그인 회원 객체 데이터 , header Location에 로그인 회원 프로필 uri 를 반환합니다." )
+
 
     @GetMapping
     public Member accessHomePage(HttpServletRequest request, HttpServletResponse response) {
@@ -57,7 +55,6 @@ public class HomeController {
     }
 
 
-    @ApiOperation(value = "로그인한 회원 메세지 리스트 데이터를 반환", notes = "isRead 값에 true 읽음 false 읽지않음을 표기합니다.")
     @GetMapping("/msgs")
     public LinkedList<MsgForm> getMsgList(HttpServletRequest request){
 

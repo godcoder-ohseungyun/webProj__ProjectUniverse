@@ -47,10 +47,10 @@ public class TestDataInit {
         memberService.join(memberA);
 
         //게시물 하나 생성
-        Post post1 = new Post(1L,"테스트파일","음");
+        Post post1 = new Post(1L,"테스트파일","음","startUser");
         postService.createPost(post1);
 
-        Post post2 = new Post(2l,"테스트파일2","응");
+        Post post2 = new Post(2l,"테스트파일2","응","new");
         postService.createPost(post2);
     }
 }

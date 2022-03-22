@@ -32,8 +32,7 @@ public class ApplyController {
     private final PostService postService;
     private final MemberService memberService;
 
-    @ApiOperation(value = "프로젝트 지원", notes = "지원시 게시물 지원자 리스트에 지원자 LoginId를 추가합니다. \n - 지원자 정보는 게시물 하단에 프로필 링크로 표시됩니다." +
-            "\n - 쿼리 파라미터로 해당 게시물 아이디를 요청합니다.")
+
     @PostMapping("/apply")
     public void apply(@RequestParam("postId") Long postId, HttpServletRequest request) {
 
@@ -57,7 +56,7 @@ public class ApplyController {
         findPost.getVolunteers().add(loginMember.getLoginId());
     }
 
-    @ApiOperation(value = "지원자 승인", notes = "지원자 승인시 지원자에게 간단한 메세지와 함께 승인 알림을 전송합니다 \n - 게시물 id , 지원자 loginId , 승인메시지가 필요 ")
+
     @PostMapping("/approve")
     public void approve(@RequestBody ApproveForm approveForm) {
         

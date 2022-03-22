@@ -31,9 +31,10 @@ public class Post {
 
 
 
-    public Post(Long id,String title, String body) {
+    public Post(Long id,String title, String body,String writer) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.writer = writer;
     }
 }

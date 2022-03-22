@@ -1,0 +1,1128 @@
+{
+	"info": {
+		"_postman_id": "35b6b694-d2ab-4cc6-b154-08b27462c22a",
+		"name": "Project-Universe",
+		"description": "# Introduction\n\nProject_Universe API Document\n\n*   author: oh seung yun\n\n\n\n<br>\n\n# Overview\n\n**테스트를 위한 시작유저가 존재합니다.**\n\n*   id: startUser pw: 0602\n\n<br>\n\n**테스트를 위한 시작 게시물 2개가 존재합니다.**\n\n*   postId: 1 & 2\n*   postName: 테스트파일 & 테스트파일2\n\n<br>\n\n**이전에 사용하던 Swagger Doc은 폐기합니다.**\n\n<br>\n\n# Notice\n\n+ 인터셉터에 의해 url 직접 요청 등 **허용되지 않은 접근은 모두 차단**됩니다.\n\n<br>\n\n+ 회원가임/로그인 필요: 발급받은 **세션이 없는경우 모든 요청은 거부**됩니다.\n\n<br>\n\n+ **한 사용자로부터 초당 20개 이상의 요청은 거부**됩니다.\n\n<br>",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"loginId\" : \"startUser\",\r\n    \"password\" : \"0602\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				},
+				"description": "### Response Status\n\n*   200 ok\n*   401 Unauthorized\n    \n\n### 200 ok\n\n*   HTTP HEADER **COOKIE**에 세션 ID를 담아 반환합니다.\n*   HTTP HEADER **Locaion**에 로그인 유저 프로필 url을 반환합니다.\n    \n\n### 401 Unauthorized\n\n*   입력한 로그인 정보가 잘못된경우 **UNAUTHORIZED** 상태코드와 에러 메세지를 반환합니다."
+			},
+			"response": [
+				{
+					"name": "401 Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\" : \"strrtUser\",\r\n    \"password\" : \"0332\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 01:13:58 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"timestamp\": 1647911638152,\n    \"code\": \"Access-Denied\",\n    \"message\": \"login information is invalid.\",\n    \"details\": \"/login\"\n}"
+				},
+				{
+					"name": "200 ok",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\" : \"startUser\",\r\n    \"password\" : \"0602\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "JSESSIONID=7AC4C9994E0A38541CE0A5B48D60F97F; Path=/; HttpOnly"
+						},
+						{
+							"key": "Location",
+							"value": "http://localhost:8080/startUser"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 01:11:51 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logout"
+					]
+				},
+				"description": "### Response Status\n\n*   204 No Content\n    \n\n### 204 No Content\n\n*   세션을 즉시 폐기합니다.\n*   HTTP HEADER Location에 메인홈 url을 반환합니다."
+			},
+			"response": [
+				{
+					"name": "204 case",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Location",
+							"value": "http://localhost:8080"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 01:29:14 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Join",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"loginId\" : \"new\",\r\n    \"password\" : \"0602\",\r\n    \"name\": \"오승윤\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/members/join",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"members",
+						"join"
+					]
+				},
+				"description": "### Response Status\n\n*   400 Bad Request\n*   201 Created\n    \n\n### 400 Bad Request\n\n*   \"id must be unique\" 에러 메세지와 함께 회원가입 절차를 거부합니다.\n    \n\n### 201 Created\n\n*   loginId의 Unique 검증이후\n*   회원가입을 완료하고 HTTP HEADER location에 해당 회원 프로필 url을 반환합니다."
+			},
+			"response": [
+				{
+					"name": "400 Bad Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\" : \"startUser\",\r\n    \"password\" : \"0602\",\r\n    \"name\": \"오승윤\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/members/join",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"members",
+								"join"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:24:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"timestamp\": 1647923041380,\n    \"code\": \"Access-Denied\",\n    \"message\": \"id must be unique\",\n    \"details\": \"/members/join\"\n}"
+				},
+				{
+					"name": "201 Created",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\" : \"new\",\r\n    \"password\" : \"0602\",\r\n    \"name\": \"오승윤\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/members/join",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"members",
+								"join"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Location",
+							"value": "http://localhost:8080/new"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:25:47 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Get profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/members/startUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"members",
+						"startUser"
+					]
+				},
+				"description": "### Info\n\n*   **게시물 상세 정보**\n*   PathVariable postId에 해당하는 post객체를 반환합니다.\n*   **게시물이 본인 소유인지 여부에 따라 공개되는 데이터가 상이합니다. (details 참고)**\n    \n\n**details**\n\n*   로그인회원이 게시자일때 post 객체의 모든 필드를 반환합니다.\n*   그렇지 않을경우 post 객체의 일부 필드를 반환합니다.\n    *   이경우 게시물 관리 정보 및 참여자 정보를 반환하지 않습니다.\n\n### Response Status\n\n*   200 ok"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/members/startUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"members",
+								"startUser"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:37:38 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 0,\n    \"loginId\": \"startUser\",\n    \"password\": \"0602\",\n    \"name\": \"시작1호기\",\n    \"email\": \"\",\n    \"photo\": null,\n    \"body\": null,\n    \"links\": null,\n    \"tags\": null,\n    \"projectList\": [],\n    \"msgs\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit profile",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/members/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"members",
+						"1"
+					]
+				},
+				"description": "### Info\n\n*   **회원 프로필 수정**\n*   PathVariable로 회원 프로필 객체를 찾아 HTTP requset body json을 가지고 수정합니다.\n    \n\n### Response Status\n\n*   404 Not Found\n*   200 ok\n    \n\n### 404 Not Found\n\n*   \"없는 회원 입니다.\" 에러 메세지와 함께 예외를 반환합니다.\n    \n\n### 200 ok\n\n*   회원 객체를 반환합니다."
+			},
+			"response": []
+		},
+		{
+			"name": "Get postList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts"
+					]
+				},
+				"description": "### Info\n\n*   **회원 게시물 객체 리스트 반환**\n*   서버에 저장된 게시물들을 모두 json list 로 반환합니다.\n    \n\n### Response Status\n\n*   200 ok\n    \n\n### 200 ok\n\n*   서버에 저장된 게시물들을 모두 json list 로 반환합니다.\n*   게시물이 없는경우 빈 list가 반환됩니다."
+			},
+			"response": [
+				{
+					"name": "200 ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:32:12 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"테스트파일\",\n        \"body\": \"음\",\n        \"writer\": \"startUser\",\n        \"creationDate\": [\n            2022,\n            3,\n            22\n        ],\n        \"viewCnt\": 0\n    },\n    {\n        \"id\": 2,\n        \"title\": \"테스트파일2\",\n        \"body\": \"응\",\n        \"writer\": \"new\",\n        \"creationDate\": [\n            2022,\n            3,\n            22\n        ],\n        \"viewCnt\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/posts/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"2"
+					]
+				},
+				"description": "### Info\n\n*   **회원 프로필 조회**\n*   PathVariable 에 해당하는 회원 프로필 객체를 찾아 반환합니다.\n    \n\n### Response Status\n\n*   404 Not Found\n*   200 ok\n    \n\n### 404 Not Found\n\n*   \"없는 회원 입니다.\" 에러 메세지와 함께 예외를 반환합니다.\n    \n\n### 200 ok\n\n*   회원 객체를 반환합니다."
+			},
+			"response": [
+				{
+					"name": "login user is writer case",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/posts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:28:05 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"title\": \"테스트파일\",\n    \"body\": \"음\",\n    \"writer\": \"startUser\",\n    \"creationDate\": [\n        2022,\n        3,\n        22\n    ],\n    \"viewCnt\": 0,\n    \"volunteers\": []\n}"
+				},
+				{
+					"name": "login user is not writer case",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/posts/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:30:39 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"title\": \"테스트파일2\",\n    \"body\": \"응\",\n    \"writer\": \"new\",\n    \"creationDate\": [\n        2022,\n        3,\n        22\n    ],\n    \"viewCnt\": 0\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit post",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/members/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"members",
+						"1"
+					]
+				},
+				"description": "### Info\n\n*   **게시물 수정**\n*   HTTP Request body의 json data를 가지고 HTTP Request PathVariable로 찾은 게시물을 수정합니다.\n*   응답 HTTP header Location에 해당 게시물 상세페이지 URL을 첨부합니다.\n*   ***중요** 새로고침시 중복등록을 방지하기위해 HTTP HEADER Location에 담긴 URL로 클라이언트는 **반드시** redierct 해야합니다.\n    \n\n### Response Status\n\n*   200 ok"
+			},
+			"response": []
+		},
+		{
+			"name": "Access Main Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080"
+				},
+				"description": "Info\n\n- 사용자 메세지 데이터 조회\n- 세션값을 가지고 메인 홈 접근을 제어합니다.\n- 정상 로그인 이후 접근이 가능합니다.\n\n<br>\n\nResponse Status\n\n- 200 ok\n- 401 UNAUTHORIZED\n\n<br>\n\n401 UNAUTHORIZED\n\n- \"Block access to users who are not logged in.\"\n- \"login information is invalid.\"\n- 세션이 만료되었거나 잘못된경우 , 접속 권한이 없는경우 위와 같은 에러 메세지를 반환합니다.\n\n<br>\n\n200 ok\n\n- 로그인한 회원 객체 데이터를 반환합니다.\n- HTTP HEADER Location에 회원 프로필 링크를 반환합니다"
+			},
+			"response": [
+				{
+					"name": "200 ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080"
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Location",
+							"value": "http://localhost:8080/startUser"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 04:56:33 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 0,\n    \"loginId\": \"startUser\",\n    \"password\": \"0602\",\n    \"name\": \"시작1호기\",\n    \"email\": \"\",\n    \"photo\": null,\n    \"body\": null,\n    \"links\": null,\n    \"tags\": null,\n    \"projectList\": [],\n    \"msgs\": []\n}"
+				},
+				{
+					"name": "401 Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080"
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 05:00:51 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"timestamp\": 1647925251087,\n    \"code\": \"Access-Denied\",\n    \"message\": \"Block access to users who are not logged in.\",\n    \"details\": \"/\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get msg List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "Info\n\n- 사용자 메세지 데이터  조회\n- 로그인한 회원 메세지 리스트 데이터를 반환합니다.\n- isRead 값에 메시지 상태를 표기합니다. ( true 읽음 false 읽지않음)\n\n\n\nResponse Status\n\n- 200 ok\n- 401 UNAUTHORIZED\n\n\n\n401 UNAUTHORIZED\n\n- \"Block access to users who are not logged in.\"\n- \"login information is invalid.\"\n- 세션이 만료되었거나 잘못된경우 에러 메세지를 반환합니다.\n\n\n\n200 ok\n\n- 로그인한 회원 메세지 객체 리스트 데이터를 반환합니다."
+			},
+			"response": [
+				{
+					"name": "200 ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/msgs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"msgs"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 05:12:59 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"msg\": \"startUser 님으로 부터의 메세지 , 공고제목: 테스트파일 , 내용: 어서오세요, 아래 링크로 오시면 됩니다. [open.kakao.com]\",\n        \"read\": false\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Apply project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/apply?postId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apply"
+					],
+					"query": [
+						{
+							"key": "postId",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Info\n\n- 프로젝트 지원\n- 프로젝트 게시물에서 지원시 게시물의 지원자 리스트에 지원자 LoginId를 추가합니다.\n- (지원자 정보는 게시물 하단에 게시물 관리 정보:지원자 리스트에 지원자 프로필 링크 형태로 표시됩니다.)\n- (지원자는 현재 로그인중인 사용자입니다.)\n\n\n\nResponse Status\n\n- 200 ok\n- 401 UNAUTHORIZED\n\n\n\n401 UNAUTHORIZED\n\n- \"Block access to users who are not logged in.\"\n- \"login information is invalid.\"\n- 세션이 만료되었거나 잘못된경우 에러 메세지를 반환합니다.\n\n\n\n200 ok\n\n- 프로젝트 게시물에서 지원시 해당 게시물 객체 지원자 리스트에 지원자 LoginId를 추가합니다."
+			},
+			"response": [
+				{
+					"name": "200 ok",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/apply?postId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"apply"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 05:06:23 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Approve joiner",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"loginId\":\"startUser\",\r\n    \"msg\": \"어서오세요, 아래 링크로 오시면 됩니다. [open.kakao.com]\" ,\r\n    \"postId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/approve",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"approve"
+					]
+				},
+				"description": "Info\n\n- 지원자 승인\n- 지원자에게 간단한 메세지와 함께 승인 알림을 전송합니다\n- 요청시 게시물 id , 지원자 loginId , 승인메시지가 필요\n\n\n\nResponse Status\n\n- 200 ok\n- 404  Not Found\n\n\n\n404 Not Found\n\n- 대상 지원자를 찾을수 없는 경우\n\n\n\n200 ok\n\n- 지원자에게 간단한 메세지와 함께 승인 알림을 전송합니다."
+			},
+			"response": [
+				{
+					"name": "Approve joiner",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\":\"startUser\",\r\n    \"msg\": \"어서오세요, 아래 링크로 오시면 됩니다. [open.kakao.com]\" ,\r\n    \"postId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/approve",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"approve"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 22 Mar 2022 05:12:11 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}
