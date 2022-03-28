@@ -51,6 +51,7 @@ public class LoginController {
         //세션 헤더에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //bound name , value in bound
 
+        response.addHeader("Set-Cookie","Secure; SameSite=None");
         //헤더 로케이션에 최근 요청 uri 담아서 반환 : 다시 돌아가게 redirect 권장
         //TODO: 아래 구문 잘못되었음 수정해야함
         response.addHeader("Location", ServletUriComponentsBuilder.fromCurrentContextPath().path("/{loginId}").buildAndExpand(loginMember.getLoginId()).toUriString());
